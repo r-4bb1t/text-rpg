@@ -12,3 +12,18 @@
 .fadein {
   animation: fadein 1s;
 }
+
+@layer components {
+  .hover {
+    @apply text-primary border-primary pointer-events-none absolute bottom-[calc(100%+0.5rem)] whitespace-nowrap border bg-gray-950 px-3 py-0.5 text-sm opacity-0 group-hover:opacity-100;
+  }
+  .hover-left {
+    @apply left-0;
+  }
+  .btn {
+    @apply border-primary hover:bg-primary disabled:hover:!text-primary shrink-0 border px-4 py-2 hover:text-black disabled:opacity-20 disabled:hover:!bg-transparent;
+  }
+  .btn-sm {
+    @apply px-2 py-0.5 text-sm;
+  }
+}

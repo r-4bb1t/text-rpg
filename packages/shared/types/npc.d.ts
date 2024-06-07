@@ -3,4 +3,5 @@ export interface NPCType {
   name: string;
   description: string;
   personality: string;
+  place: string;
 }

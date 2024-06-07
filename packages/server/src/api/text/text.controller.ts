@@ -1,8 +1,8 @@
-import { actionPrompt, logPrompt } from "./prompt";
+import { actionPrompt, logPrompt } from "./text.prompt";
 import { Context } from "koa";
 import OpenAI from "openai";
 
-import { LogInputType } from "@shared/types/input";
+import { ActionInputType, LogInputType } from "@shared/types/input";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY || "",
@@ -19,7 +19,6 @@ export const getText = async (ctx: Context) => {
     items,
     gold,
     hp,
-    npc,
     mp,
   }: LogInputType = ctx.request.body;
 
@@ -35,7 +34,6 @@ export const getText = async (ctx: Context) => {
           user,
           action,
           result,
-          npc,
           gold,
           hp,
           mp,
@@ -44,30 +42,43 @@ export const getText = async (ctx: Context) => {
     ],
     model: "gpt-4o",
   });
-  const res = JSON.parse(
-    completion.choices[0].message.content
-      ?.replace("```json", "")
-      ?.replace("```", "") || "",
-  );
-  console.log(res);
-  ctx.body = JSON.stringify(res);
+  try {
+    console.log(
+      completion.choices[0].message.content
+        ?.replaceAll("```json", "")
+        ?.replaceAll("```", ""),
+    );
+    const res = JSON.parse(
+      completion.choices[0].message.content
+        ?.replaceAll("```json", "")
+        ?.replaceAll("```", "") || "",
+    );
+    ctx.body = JSON.stringify({ ...res });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const getActionType = async (ctx: Context) => {
-  const { text } = ctx.request.body;
+  const { text, items, npc, map }: ActionInputType = ctx.request.body;
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: actionPrompt(text),
+        content: actionPrompt({ map, text, items, npc }),
       },
     ],
     model: "gpt-4o",
   });
-  const action = JSON.parse(
-    completion.choices[0].message.content
-      ?.replaceAll("```json", "")
-      ?.replaceAll("```", "") || "",
-  );
-  ctx.body = JSON.stringify(action);
+  console.log(completion.choices[0].message.content);
+  try {
+    const action = JSON.parse(
+      completion.choices[0].message.content
+        ?.replaceAll("```json", "")
+        ?.replaceAll("```", "") || "",
+    );
+    ctx.body = JSON.stringify(action);
+  } catch (e) {
+    console.log(e);
+  }
 };

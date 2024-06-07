@@ -1,14 +1,15 @@
 import { MonsterType } from "./monster";
-import { ENVIRONMENTS } from "@shared/environments";
+import { NPCType } from "./npc";
 import { icons } from "lucide-react";
 
 export interface MapType {
   key: string;
   name: string;
   description: string;
-  long_description: string;
+  longDescription: string;
 
   monster: MonsterType | null;
+  npc: NPCType[];
   environments: EnvironmentType[];
 
   startLogs: string[];

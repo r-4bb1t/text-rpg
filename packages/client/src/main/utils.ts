@@ -1,10 +1,14 @@
 import { ipcMain } from "electron";
 
-import { SKILLTYPES } from "@shared/skills";
-import { LogInputType } from "@shared/types/input";
+import {
+  ActionInputType,
+  LogInputType,
+  MapInputType,
+} from "@shared/types/input";
+import { SkillTypes } from "@shared/types/user";
 
 export default function utils(): void {
-  ipcMain.handle("getActionType", async (_, text: string) => {
+  ipcMain.handle("getActionType", async (_, props: ActionInputType) => {
     const res = await fetch(
       //@ts-ignore - Vite environment variable
       `${import.meta.env.MAIN_VITE_API_HOST}/api/text/action`,
@@ -13,12 +17,11 @@ export default function utils(): void {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify(props),
       },
     );
 
-    const json: { type: keyof typeof SKILLTYPES; difficulty: number } =
-      await res.json();
+    const json: { type: SkillTypes; difficulty: number } = await res.json();
     return json;
   });
 
@@ -26,6 +29,22 @@ export default function utils(): void {
     const res = await fetch(
       //@ts-ignore - Vite environment variable
       `${import.meta.env.MAIN_VITE_API_HOST}/api/text/log`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(props),
+      },
+    );
+    const json = await res.json();
+    return json;
+  });
+
+  ipcMain.handle("move", async (_, props: MapInputType) => {
+    const res = await fetch(
+      //@ts-ignore - Vite environment variable
+      `${import.meta.env.MAIN_VITE_API_HOST}/api/map/move`,
       {
         method: "POST",
         headers: {

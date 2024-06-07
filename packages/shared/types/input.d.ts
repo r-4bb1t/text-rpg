@@ -14,7 +14,6 @@ export interface LogInputType {
   }[];
   gold: number;
   hp: number;
-  npc: NPCType[];
   mp: number;
 }
 
@@ -31,10 +30,26 @@ export interface LogOutputType {
       name: string;
       description: string;
       personality: string;
+      place: string;
     };
     text: string;
   }[];
   encounter_monster: boolean;
   clear: boolean;
   status: { key: string; value: number }[];
+}
+
+export interface MapInputType {
+  user: string;
+  maxLevel: number;
+}
+
+export interface ActionInputType {
+  map: MapType;
+  text: string;
+  items: {
+    item: ItemType;
+    count: number;
+  }[];
+  npc: NPCType[];
 }

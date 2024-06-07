@@ -1,6 +1,4 @@
-import { icons } from "lucide-react";
-
-export const ENVIRONMENTS: (keyof typeof icons)[] = [
+export const ENVIRONMENTS = [
   "Trees",
   "Snowflake",
   "Cloud",
@@ -8,7 +6,6 @@ export const ENVIRONMENTS: (keyof typeof icons)[] = [
   "Flower",
   "Shell",
   "Waves",
-  "TreePalm",
   "Castle",
   "Ghost",
   "Pickaxe",

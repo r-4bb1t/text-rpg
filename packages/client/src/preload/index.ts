@@ -1,7 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 import { electronAPI } from "@electron-toolkit/preload";
-import { MonsterType } from "@shared/types/monster";
+import {
+  ActionInputType,
+  LogInputType,
+  MapInputType,
+} from "@shared/types/input";
 
 // Custom APIs for renderer
 const api = {};
@@ -13,16 +17,10 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld("electron", {
       ...electronAPI,
-      getActionType: (text: string) =>
-        ipcRenderer.invoke("getActionType", text),
-      getLog: (props: {
-        logs: string[];
-        monster: MonsterType;
-        map: string;
-        user: string;
-        action: string;
-        result: string;
-      }) => ipcRenderer.invoke("getLog", props),
+      getActionType: (props: ActionInputType) =>
+        ipcRenderer.invoke("getActionType", props),
+      getLog: (props: LogInputType) => ipcRenderer.invoke("getLog", props),
+      move: (props: MapInputType) => ipcRenderer.invoke("move", props),
     });
     contextBridge.exposeInMainWorld("api", api);
   } catch (error) {

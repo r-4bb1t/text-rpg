@@ -1,4 +1,8 @@
-import { LogInputType, LogOutputType } from "@shared/types/input";
+import {
+  ActionInputType,
+  LogInputType,
+  LogOutputType,
+} from "@shared/types/input";
 import { SkillTypes, UserType } from "@shared/types/user";
 
 declare global {
@@ -9,12 +13,12 @@ declare global {
 }
 
 export const getActionType = async (
-  text: string,
+  props: ActionInputType,
 ): Promise<{
   type: SkillTypes;
   difficulty: number;
 }> => {
-  const result = await window.electron.getActionType(text);
+  const result = await window.electron.getActionType(props);
   return result;
 };
 
@@ -47,7 +51,7 @@ export const getResult = (
       break;
   }
 
-  value = Math.random() * value * 2; // 0~value
+  value = Math.sqrt(Math.random()) * value * 1.5; // 0~value
 
   console.log(type, difficulty, value);
 

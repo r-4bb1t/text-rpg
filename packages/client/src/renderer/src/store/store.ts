@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
+import { RESTARTMAP, STARTMAP } from "@shared/map";
 import { ItemType } from "@shared/types/item";
 import { LogType } from "@shared/types/log";
+import { MapType } from "@shared/types/map";
 import { MonsterType } from "@shared/types/monster";
 import { NPCType } from "@shared/types/npc";
 import { UserType } from "@shared/types/user";
-import { getExp, getMaxHP, getMaxMP } from "@shared/utils/level";
-import { MapType } from "@shared/types/map";
-import { STARTMAP } from "@shared/map";
+import { getExp, getMaxExp, getMaxHP, getMaxMP } from "@shared/utils/level";
 
 export interface Store {
   user: UserType;
@@ -27,7 +27,6 @@ export interface Store {
 
   monster: MonsterType | null;
   initMonster: (monster: MonsterType) => void;
-  encounterMonster: boolean;
   encounter: () => void;
 
   npc: NPCType[];
@@ -35,13 +34,16 @@ export interface Store {
 
   map: MapType;
   route: MapType[];
-  move: () => void;
+  move: (newMap: MapType) => void;
 
   attack: (damage: number) => void;
-  beattacked: (damage: number) => void;
 
   cleared: boolean;
   clear: () => void;
+
+  addStatus: (key: string, value: number) => void;
+
+  reset: () => void;
 }
 
 export const useData = create<Store>((set) => ({
@@ -54,8 +56,8 @@ export const useData = create<Store>((set) => ({
     luk: 5,
     exp: 0,
 
-    hp: 100,
-    mp: 50,
+    hp: getMaxHP(1),
+    mp: getMaxMP(1),
 
     gold: 0,
   },
@@ -75,6 +77,15 @@ export const useData = create<Store>((set) => ({
         mp: Math.min(state.user.mp + mp, getMaxMP(state.user.level)),
       },
     })),
+  addStatus: (key, value): void =>
+    set((state) => {
+      return {
+        user: {
+          ...state.user,
+          [key]: state.user[key as "int" | "dex" | "str" | "luk"] + value,
+        },
+      };
+    }),
 
   logs: [],
   addLog: (log): void => set((state) => ({ logs: [...state.logs, log] })),
@@ -126,7 +137,12 @@ export const useData = create<Store>((set) => ({
   initMonster: (monster): void => set({ monster }),
   encounterMonster: false,
   encounter: (): void => {
-    set({ encounterMonster: true });
+    set((state) => {
+      if (!state.monster) {
+        return state;
+      }
+      return { monster: { ...state.monster, encountered: true } };
+    });
   },
 
   npc: [],
@@ -141,15 +157,17 @@ export const useData = create<Store>((set) => ({
   map: STARTMAP,
   route: [STARTMAP],
 
-  move: (): void => {
-    const newMap = window.electron.ipcRenderer.invoke("move");
-    if (!newMap) {
-      return;
-    }
+  move: (newMap: MapType): void => {
+    console.log(newMap.monster);
     set((state) => {
-      const route = state.route;
-      route.push(newMap);
-      return { map: newMap, route };
+      return {
+        map: newMap,
+        route: [...state.route, newMap],
+        npc: [],
+        monster: newMap.monster,
+        cleared: false,
+        encounterMonster: false,
+      };
     });
   },
 
@@ -160,21 +178,14 @@ export const useData = create<Store>((set) => ({
       }
       const hp = state.monster.hp - damage;
       if (hp <= 0) {
-        return { monster: null, encounterMonster: false };
+        return { monster: null, cleared: true };
       }
       return { monster: { ...state.monster, hp } };
     });
   },
-  beattacked: (damage: number): void => {
-    set((state) => {
-      if (!state.monster) {
-        return state;
-      }
-      return { user: { ...state.user, hp: state.user.hp - damage } };
-    });
-  },
 
   cleared: false,
+
   clear: (): void => {
     set((state) => {
       let exp =
@@ -186,8 +197,9 @@ export const useData = create<Store>((set) => ({
       let level = state.user.level;
       let hp = state.user.hp;
       let mp = state.user.mp;
-      while (exp >= getExp(state.user.level)) {
-        exp -= getExp(state.user.level);
+
+      while (exp >= getMaxExp(state.user.level)) {
+        exp -= getMaxExp(state.user.level);
         level += 1;
         hp = getMaxHP(level);
         mp = getMaxHP(level);
@@ -195,7 +207,6 @@ export const useData = create<Store>((set) => ({
 
       return {
         cleared: true,
-        monster: null,
         user: {
           ...state.user,
           level,
@@ -203,9 +214,63 @@ export const useData = create<Store>((set) => ({
           exp,
           hp,
           mp,
+          dex: state.user.dex + level - state.user.level,
+          str: state.user.str + level - state.user.level,
+          int: state.user.int + level - state.user.level,
+          luk: state.user.luk + level - state.user.level,
         },
       };
     });
+  },
+
+  reset: (): void => {
+    set((state) => ({
+      user: {
+        ...state.user,
+        level: 1,
+        hp: getMaxHP(1),
+        mp: getMaxMP(1),
+      },
+      logs: [
+        ...state.logs,
+        {
+          text: "새로운 모험을 시작합니다.",
+          type: "system",
+          changes: [],
+        },
+      ],
+      items: [
+        {
+          item: {
+            key: "wooden_stick",
+            name: "나무 막대기",
+            description: "공격력 10을 가진 나무 막대기",
+          },
+          count: 1,
+        },
+        {
+          item: {
+            key: "red_potion",
+            name: "빨간 포션",
+            description: "체력을 20 회복해주는 포션",
+          },
+          count: 2,
+        },
+        {
+          item: {
+            key: "bread",
+            name: "빵",
+            description: "아무 효과도 없는 퍽퍽한 빵",
+          },
+          count: 1,
+        },
+      ],
+      monster: null,
+      npc: [],
+      map: RESTARTMAP,
+      route: [RESTARTMAP],
+      cleared: false,
+    }));
   },
 }));
 

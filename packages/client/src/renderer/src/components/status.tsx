@@ -1,4 +1,5 @@
 import { useData } from "../store/store";
+import cc from "classcat";
 import {
   BadgeDollarSign,
   BicepsFlexed,
@@ -9,7 +10,7 @@ import {
   Wind,
 } from "lucide-react";
 
-import { getMaxHP, getMaxMP } from "@shared/utils/level";
+import { getMaxExp, getMaxHP, getMaxMP } from "@shared/utils/level";
 
 export default function Status(): JSX.Element {
   const { user, items } = useData();
@@ -17,9 +18,19 @@ export default function Status(): JSX.Element {
     <div className="border-primary border p-4 text-sm">
       <div className="flex items-center justify-between">
         <div>
-          {user.name || "-"} (Lv. {user.level})
+          {user.name || "-"} Lv. {user.level} (
+          {Math.round((user.exp / getMaxExp(user.level)) * 100)}%)
         </div>
-        <div className="flex items-center gap-1 whitespace-nowrap stroke-1 text-green-500">
+        <div
+          className={cc([
+            "flex items-center gap-1 whitespace-nowrap stroke-1",
+            user.hp > getMaxHP(user.level) * 0.5
+              ? "text-green-500"
+              : user.hp > getMaxHP(user.level) * 0.25
+                ? "text-yellow-500"
+                : "text-red-500",
+          ])}
+        >
           <Cross size={16} />
           <b>HP</b> {user.hp} / {getMaxHP(user.level)}
         </div>
@@ -32,11 +43,11 @@ export default function Status(): JSX.Element {
         </div>
         <div className="flex items-center gap-1 stroke-1">
           <Wand2 size={16} />
-          <b>DEX</b> {user.dex}
+          <b>INT</b> {user.int}
         </div>
         <div className="flex items-center gap-1 stroke-1">
           <Wind size={16} />
-          <b>INT</b> {user.int}
+          <b>DEX</b> {user.dex}
         </div>
         <div className="flex items-center gap-1 stroke-1">
           <Clover size={16} />
@@ -52,9 +63,10 @@ export default function Status(): JSX.Element {
           {items.map((item) => {
             return (
               <div
-                className="border-primary flex items-center gap-1 border px-1 py-0.5"
+                className="border-primary group relative flex flex-wrap items-center justify-center gap-1 border px-2 py-0.5"
                 key={item.item.key}
               >
+                <div className="hover">{item.item.description}</div>
                 {item.item.name} x {item.count}
               </div>
             );
