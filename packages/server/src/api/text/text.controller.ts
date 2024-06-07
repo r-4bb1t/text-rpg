@@ -18,8 +18,8 @@ export const getText = async (ctx: Context) => {
     user,
     items,
     gold,
-    weapons,
     hp,
+    npc,
     mp,
   }: LogInputType = ctx.request.body;
 
@@ -35,8 +35,8 @@ export const getText = async (ctx: Context) => {
           user,
           action,
           result,
+          npc,
           gold,
-          weapons,
           hp,
           mp,
         }),
