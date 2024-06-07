@@ -1,22 +1,73 @@
-export const getNickname = async (ctx: Context) => {
-  const { roomId, userId } = ctx.params;
-  const room = await AppDataSource.getRepository(Room).findOne({
-    where: {
-      id: roomId,
-    },
+import { actionPrompt, logPrompt } from "./prompt";
+import { Context } from "koa";
+import OpenAI from "openai";
+
+import { LogInputType } from "@shared/types/input";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_KEY || "",
+});
+
+export const getText = async (ctx: Context) => {
+  const {
+    action,
+    result,
+    map,
+    logs,
+    monster,
+    user,
+    items,
+    gold,
+    weapons,
+    hp,
+    mp,
+  }: LogInputType = ctx.request.body;
+
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: logPrompt({
+          map,
+          items,
+          logs,
+          monster,
+          user,
+          action,
+          result,
+          gold,
+          weapons,
+          hp,
+          mp,
+        }),
+      },
+    ],
+    model: "gpt-4o",
   });
+  const res = JSON.parse(
+    completion.choices[0].message.content
+      ?.replaceAll("```json", "")
+      ?.replaceAll("```", "") || "",
+  );
+  console.log(res);
+  ctx.body = JSON.stringify(res);
+};
 
-  if (!room) {
-    ctx.status = 404;
-    return;
-  }
-
-  const user = room.users.find((user) => user.id === userId);
-
-  if (!user) {
-    ctx.status = 404;
-    return;
-  }
-
-  ctx.body = user;
+export const getActionType = async (ctx: Context) => {
+  const { text } = ctx.request.body;
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: actionPrompt(text),
+      },
+    ],
+    model: "gpt-4o",
+  });
+  const action = JSON.parse(
+    completion.choices[0].message.content
+      ?.replaceAll("```json", "")
+      ?.replaceAll("```", "") || "",
+  );
+  ctx.body = JSON.stringify(action);
 };

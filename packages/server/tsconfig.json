@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [".", "../shared/types/input.ts"],
+  "files": [],
+  "references": [{ "path": "../../tsconfig.json" }]
+}

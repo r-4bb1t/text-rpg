@@ -3,6 +3,6 @@ import text from "./text";
 
 const api = new Router();
 
-api.use("/chat", text.routes());
+api.use("/text", text.routes());
 
 export default api;

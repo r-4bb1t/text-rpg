@@ -1,8 +1,9 @@
-import Router from "koa-router";
 import * as Controller from "./text.controller";
+import Router from "koa-router";
 
-const chatRotuer = new Router();
+const textRotuer = new Router();
 
-chatRotuer.post("/:roomId", Controller.addChat);
+textRotuer.post("/log", Controller.getText);
+textRotuer.post("/action", Controller.getActionType);
 
-export default chatRotuer;
+export default textRotuer;
