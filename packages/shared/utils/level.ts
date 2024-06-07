@@ -1,5 +1,5 @@
 export const getMaxHP = (level: number): number => {
-  return Math.floor(Math.sqrt(level * 2)) * 50;
+  return Math.floor(Math.sqrt(level) * 50);
 };
 
 export const getMaxMP = (level: number): number => {
@@ -11,5 +11,5 @@ export const getMaxExp = (level: number): number => {
 };
 
 export const getExp = (level: number): number => {
-  return level * 25;
+  return level * 30;
 };

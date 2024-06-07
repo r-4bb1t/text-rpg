@@ -32,7 +32,7 @@ export interface LogOutputType {
       personality: string;
       place: string;
     };
-    text: string;
+    utterance: string;
   }[];
   encounter_monster: boolean;
   clear: boolean;

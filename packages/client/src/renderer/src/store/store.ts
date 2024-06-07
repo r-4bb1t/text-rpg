@@ -167,6 +167,14 @@ export const useData = create<Store>((set) => ({
         monster: newMap.monster,
         cleared: false,
         encounterMonster: false,
+        logs: [
+          ...state.logs,
+          {
+            type: "move",
+            text: "",
+            changes: [],
+          },
+        ],
       };
     });
   },
@@ -178,7 +186,7 @@ export const useData = create<Store>((set) => ({
       }
       const hp = state.monster.hp - damage;
       if (hp <= 0) {
-        return { monster: null, cleared: true };
+        return { cleared: true };
       }
       return { monster: { ...state.monster, hp } };
     });
@@ -219,6 +227,17 @@ export const useData = create<Store>((set) => ({
           int: state.user.int + level - state.user.level,
           luk: state.user.luk + level - state.user.level,
         },
+        logs: [
+          ...state.logs,
+          {
+            type: "system",
+            text: `${state.map.name}을 클리어해 경험치 ${getExp(state.monster!.level)}와 골드 ${state.monster!.gold}를 획득했다.`,
+            changes: [
+              { key: "골드", value: gold },
+              { key: "exp", value: getExp(state.monster!.level) },
+            ],
+          },
+        ],
       };
     });
   },

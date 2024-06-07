@@ -21,17 +21,20 @@ export default function Logs(): JSX.Element {
       className="border-primary scrollbar-thumb-primary scrollbar-thin flex h-full flex-col justify-end overflow-auto border p-4"
       ref={scrollRef}
     >
-      <div className="flex min-h-0 shrink flex-col justify-end">
+      <div className="min-h-0">
         {logs.map((log, index) => (
           <div
             key={index}
             className={cc([
-              "fadein",
+              "fadein py-0.5 last:pb-4",
               log.type === "system" && "italic",
               log.type === "user" && "text-white",
               log.type === "npc" && "text-yellow-500",
             ])}
           >
+            {log.type === "move" && (
+              <div className="border-t-primary my-4 h-0 w-full border-t border-dashed" />
+            )}
             {log.prefix && (
               <span
                 className={cc([

@@ -114,7 +114,7 @@ export default function Input({
           value: log.gold,
         });
       }
-      if (log.status.length > 0) {
+      if (log.status?.length > 0) {
         log.status.forEach((status) => {
           if (status.value === 0) return;
           addStatus(status.key.toLowerCase(), status.value);
@@ -125,7 +125,7 @@ export default function Input({
           return;
         });
       }
-      if (log.items.length > 0) {
+      if (log.items?.length > 0) {
         log.items.forEach((item) => {
           if (item.change === 0) return;
           addItem(item, item.change);
@@ -153,13 +153,13 @@ export default function Input({
         clear();
       }
 
-      if (log.script.length > 0) {
+      if (log.script?.length > 0) {
         log.script.forEach((script, i) => {
           addNpc(script.npc);
           setTimeout(() => {
             addLog({
               npc: script.npc.name,
-              text: script.text,
+              text: script.utterance,
               type: "npc",
               changes: [],
             }),

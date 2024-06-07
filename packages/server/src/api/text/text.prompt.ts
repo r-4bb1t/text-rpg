@@ -66,7 +66,10 @@ ${action}
 
 ${user}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다.
 이 때 ${user}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라.
-${user}가 ${monster?.place}나 ${map.npc.map((n) => n.place).join(", ")}에 가서 몬스터나 NPC를 마주치게 유도하라.
+${user}가 주변을 살핀다면 최대한 자세히 적어라.
+${user}가 ${map.npc.map((n) => n.place).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.
+목표는 몬스터를 만나 몬스터를 물리치는 것이며, 그 과정에서 NPC와 대화하거나 거래할 수 있다.
+또한 몬스터를 설득하거나 다른 방법으로 해결하는 것도 가능하다.
 
 
 또, 해당 결과로 인해 ${user}의 hp 변화나 mp 변화, 적에게 줄 수 있는 damage, 골드 변화, 아이템의 개수 변화 등의 추가 정보가 필요하다면 추가하라.
@@ -76,6 +79,7 @@ damage는 몬스터에게 준 피해량이다. 피해를 주었다면 0 이상�
 ${user}이/가 가지고 있지 않은 아이템을 먹거나 사용할 경우 무시한다.
 존재하지 않는 아이템을 얻거나 잃는 경우 무시한다.
 NPC를 마주칠 경우 NPC의 key와 대사를 출력하라. NPC를 꼭 마주치지 않아도 되고, 적당히 마주치게 해도 된다.
+NPC의 대사가 없으면 script를 빈 배열로 출력하라.
 몬스터를 발견했는지 여부를 출력하라. 몬스터를 꼭 마주치지 않아도 된다.
 몬스터의 hp가 0 이하가 되었거나 몬스터를 물러가게 했을 경우 등 스테이지를 클리어했다고 판단되면 clear: true를 출력하라. (단, 몬스터를 막 조우한 상황이라면 clear: false를 출력한다.)
 status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되면 1~2를 증가시킨다.
@@ -88,7 +92,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "mp"?: number;
     "gold"?: number;
     "damage"?: number;
-    "script": { "npc": { "key": string, "name": string, "description": string, "personality": string }, "text": string }[],
+    "script": { "npc": { "key": string, "name": string, "description": string, "personality": string }, "utterance": string }[],
     "encounter_monster": boolean,
     "clear": boolean,
     "status": { "key": string; "value": number }[]
