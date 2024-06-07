@@ -1,0 +1,6 @@
+{
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^@/components/(.*)$", "^[@/]"],
+  "plugins": ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"]
+}

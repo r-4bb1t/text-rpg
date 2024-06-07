@@ -1,0 +1,17 @@
+{
+  "name": "text-rpg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:client": "cd ./packages/client && pnpm dev",
+    "dev:server": "cd ./packages/server && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "typescript-node": "^0.1.3"
+  }
+}
