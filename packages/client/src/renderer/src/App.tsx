@@ -7,24 +7,21 @@ import Status from "./components/status";
 import { useData } from "./store/store";
 import { replaceLog } from "./utils/log";
 
-import { MAPS, maps } from "@shared/maps";
-
 function App(): JSX.Element {
-  const [map, setMap] = useState<keyof typeof MAPS>(MAPS.START);
   const [loading, setLoading] = useState(true);
 
-  const { user, addLog } = useData();
+  const { user, addLog, map } = useData();
 
   const setDefaultLogs = useCallback(() => {
     setLoading(true);
-    maps[map].defaultLog.forEach((log, i) => {
+    map.startLogs.forEach((log, i) => {
       setTimeout(() => {
         addLog({
-          text: replaceLog(log, user.name, maps[map].title),
+          text: replaceLog(log, user.name, map.name),
           type: "system",
           changes: [],
         });
-        if (i === maps[map].defaultLog.length - 1) {
+        if (i === map.startLogs.length - 1) {
           setLoading(false);
         }
       }, 1000 * i);
@@ -38,14 +35,9 @@ function App(): JSX.Element {
   return (
     <div className="text-primary flex h-screen w-full flex-col gap-4 overflow-hidden bg-gray-950 p-12">
       <Status />
-      <Header map={map} />
+      <Header />
       <Logs />
-      <Input
-        map={map}
-        setMap={setMap}
-        loading={loading}
-        setLoading={setLoading}
-      />
+      <Input loading={loading} setLoading={setLoading} />
     </div>
   );
 }
