@@ -7,13 +7,11 @@
     "src/preload/*.d.ts"
   ],
   "compilerOptions": {
-    "composite": true,
+    "target": "esnext",
     "jsx": "react-jsx",
-    "baseUrl": ".",
+    "composite": true,
     "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ]
+      "@renderer/*": ["./src/renderer/src/*"]
     }
   }
 }
