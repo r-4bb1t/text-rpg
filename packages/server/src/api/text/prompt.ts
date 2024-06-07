@@ -1,5 +1,5 @@
-import { MAPS, maps } from "@shared/maps";
 import { ItemType } from "@shared/types/item";
+import { MapType } from "@shared/types/map";
 import { MonsterType } from "@shared/types/monster";
 import { NPCType } from "@shared/types/npc";
 
@@ -18,7 +18,7 @@ export const logPrompt = ({
 }: {
   logs: string[];
   monster?: MonsterType;
-  map: keyof typeof MAPS;
+  map: MapType;
   user: string;
   action: string;
   result: string;
@@ -30,7 +30,7 @@ export const logPrompt = ({
   gold: number;
   hp: number;
   mp: number;
-}) => `주인공 ${user}는 현재 ${maps[map].title}에 있다.
+}) => `주인공 ${user}는 현재 ${map.name}에 있다.
 
 [로그]
 ${logs.map((log) => "- " + log).join("\n")}
@@ -45,7 +45,7 @@ ${
 }
 
 [지형]
-${maps[map].environments_desc.map((env) => "- " + env).join("\n")}
+${map.long_description}
 
 [주인공이 가지고 있는 아이템]
 ${items.map((item) => `[key: ${item.item.key}] ${item.item.name} ${item.count}개 - ${item.item.description}`).join("\n")}
@@ -91,7 +91,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
 `;
 
 export const actionPrompt = (
-  text: string,
+  text: string
 ) => `다음 유저의 행동이 어떤 종류의 능력을 사용하며, 난이도가 얼마나 높은지 출력하라.
 능력 종류: STR, DEX, INT, LUK
 난이도 범위: 1~80

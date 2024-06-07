@@ -1,6 +1,5 @@
-import { SKILLTYPES } from "@shared/skills";
 import { LogInputType, LogOutputType } from "@shared/types/input";
-import { UserType } from "@shared/types/user";
+import { SkillTypes, UserType } from "@shared/types/user";
 
 declare global {
   interface Window {
@@ -12,7 +11,7 @@ declare global {
 export const getActionType = async (
   text: string,
 ): Promise<{
-  type: keyof typeof SKILLTYPES;
+  type: SkillTypes;
   difficulty: number;
 }> => {
   const result = await window.electron.getActionType(text);
@@ -25,10 +24,13 @@ export const getLog = async (props: LogInputType): Promise<LogOutputType> => {
 };
 
 export const getResult = (
-  type: keyof typeof SKILLTYPES,
+  type: SkillTypes,
   user: UserType,
   difficulty: number,
-): string => {
+): {
+  result: "대실패" | "실패" | "성공" | "대성공";
+  value: number;
+} => {
   let value = 0;
   switch (type) {
     case "STR":
@@ -51,12 +53,12 @@ export const getResult = (
 
   switch (true) {
     case value < difficulty / 4:
-      return "대실패";
+      return { result: "대실패", value };
     case value < difficulty / 2:
-      return "실패";
+      return { result: "실패", value };
     case value < difficulty:
-      return "성공";
+      return { result: "성공", value };
     default:
-      return "대성공";
+      return { result: "대성공", value };
   }
 };

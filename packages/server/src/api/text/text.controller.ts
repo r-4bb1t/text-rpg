@@ -46,8 +46,8 @@ export const getText = async (ctx: Context) => {
   });
   const res = JSON.parse(
     completion.choices[0].message.content
-      ?.replaceAll("```json", "")
-      ?.replaceAll("```", "") || "",
+      ?.replace("```json", "")
+      ?.replace("```", "") || "",
   );
   console.log(res);
   ctx.body = JSON.stringify(res);

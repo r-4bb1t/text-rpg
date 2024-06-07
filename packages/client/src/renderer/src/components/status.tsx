@@ -9,11 +9,10 @@ import {
   Wind,
 } from "lucide-react";
 
-import { items } from "@shared/items";
 import { getMaxHP, getMaxMP } from "@shared/utils/level";
 
 export default function Status(): JSX.Element {
-  const { user, items: userItems } = useData();
+  const { user, items } = useData();
   return (
     <div className="border-primary border p-4 text-sm">
       <div className="flex items-center justify-between">
@@ -48,17 +47,15 @@ export default function Status(): JSX.Element {
         </div>
       </div>
 
-      {userItems.length > 0 && (
+      {items.length > 0 && (
         <div className="mt-2 flex items-center gap-2">
-          {userItems.map((item) => {
-            const Icon = items[item.item].icon;
+          {items.map((item) => {
             return (
               <div
                 className="border-primary flex items-center gap-1 border px-1 py-0.5"
-                key={item.item}
+                key={item.item.key}
               >
-                <Icon size={16} />
-                {items[item.item].name} x {item.count}
+                {item.item.name} x {item.count}
               </div>
             );
           })}

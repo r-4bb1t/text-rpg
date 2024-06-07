@@ -3,19 +3,12 @@ import { useCallback, useState } from "react";
 import { useData } from "../store/store";
 import { getActionType, getLog, getResult } from "../utils/action";
 
-import { ITEMS, items } from "@shared/items";
-import { MAPS } from "@shared/maps";
-import { npcs } from "@shared/npcs";
 import { LogType } from "@shared/types/log";
 
 export default function Input({
-  map,
-  setMap,
   loading,
   setLoading,
 }: {
-  map: keyof typeof MAPS;
-  setMap: React.Dispatch<React.SetStateAction<keyof typeof MAPS>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
@@ -25,74 +18,117 @@ export default function Input({
     setUser,
     addLog,
     logs,
+    items,
+    monster,
+    map,
+    move,
     addHp,
     addMp,
     addItem,
-    items: userItems,
+    encounter,
+    npc,
+    addNpc,
+    clear,
   } = useData();
 
   const handleSend = useCallback(async (): Promise<void> => {
     addLog({ text: value, type: "user", changes: [] });
     try {
       setLoading(true);
-      if (map === MAPS.START) {
+      if (map.key === "start") {
         setUser({ ...user, name: value });
-        setTimeout(() => setMap(MAPS.LYRIN), 1000);
+        setTimeout(() => move(), 1000);
         setValue("");
         return;
       }
 
       const { type, difficulty } = await getActionType(value);
-      const result = getResult(type, user, difficulty);
+      const { result, value: val } = getResult(type, user, difficulty);
       const log = await getLog({
         action: value,
         result,
-        map: `${map}`,
+        map,
         logs: [...logs.slice(-5).map((log) => log.type + ": " + log.text)],
         user: user.name,
-        items: userItems,
+        items,
+        monster,
+        gold: user.gold,
+        hp: user.hp,
+        mp: user.mp,
+        npc,
       });
       setValue("");
-      console.log(log);
-      const changes: LogType["changes"] = [];
+
+      const c: LogType["changes"] = [];
       if (log.hp) {
         addHp(log.hp);
-        changes.push({
+        c.push({
           key: "hp",
           value: log.hp,
         });
       }
       if (log.mp) {
         addMp(log.mp);
-        changes.push({
+        c.push({
           key: "mp",
           value: log.mp,
         });
       }
-      if (log.items.length > 0) {
-        log.items.forEach((item) => {
-          addItem(item.key as keyof typeof ITEMS, item.count);
-          changes.push({
-            key: items[item.key as keyof typeof ITEMS].name,
-            value: item.count,
+      if (log.status.length > 0) {
+        log.status.forEach((status) => {
+          if (status.value === 0) return;
+          setUser({
+            ...user,
+            [status.key.toLowerCase() as "str" | "int" | "dex" | "luk"]:
+              user[status.key.toLowerCase() as "str" | "int" | "dex" | "luk"] +
+              status.value,
+          });
+          c.push({
+            key: status.key,
+            value: status.value,
           });
         });
       }
+      if (log.items.length > 0) {
+        log.items.forEach((item) => {
+          addItem(item, item.change);
+          c.push({
+            key: item.name,
+            value: item.change,
+          });
+        });
+      }
+      if (log.encounter_monster) {
+        encounter();
+      }
+      if (log.clear) {
+        clear();
+      }
       addLog({
         prefix: result,
+        info: {
+          type,
+          difficulty,
+          value: val,
+        },
         text: log.text,
         type: "system",
-        changes,
+        changes: c,
       });
+
       if (log.script.length > 0) {
-        log.script.forEach((script) =>
-          addLog({
-            npc: npcs[script.key].name,
-            text: script.text,
-            type: "npc",
-            changes: [],
-          }),
-        );
+        log.script.forEach((script, i) => {
+          addNpc(script.npc);
+          setTimeout(() => {
+            addLog({
+              npc: script.npc.name,
+              text: script.text,
+              type: "npc",
+              changes: [],
+            }),
+              500 * i;
+          });
+        });
       }
     } catch (e) {
       console.log(e);
@@ -110,7 +146,7 @@ export default function Input({
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
         placeholder={
-          map === MAPS.START ? "이름이 무엇인가요?" : "어떤 행동을 하시겠어요?"
+          map.key === "start" ? "이름이 무엇인가요?" : "어떤 행동을 하시겠어요?"
         }
         autoFocus
       />
