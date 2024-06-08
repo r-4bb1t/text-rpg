@@ -25,10 +25,10 @@ export default function Status(): JSX.Element {
           className={cc([
             "flex items-center gap-1 whitespace-nowrap stroke-1",
             user.hp > getMaxHP(user.level) * 0.5
-              ? "text-green-500"
+              ? "text-green-400"
               : user.hp > getMaxHP(user.level) * 0.25
-                ? "text-yellow-500"
-                : "text-red-500",
+                ? "text-yellow-400"
+                : "text-red-400",
           ])}
         >
           <Cross size={16} />

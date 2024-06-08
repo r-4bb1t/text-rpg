@@ -29,7 +29,7 @@ export default function Logs(): JSX.Element {
               "fadein py-0.5 last:pb-4",
               log.type === "system" && "italic",
               log.type === "user" && "text-white",
-              log.type === "npc" && "text-yellow-500",
+              log.type === "npc" && "text-yellow-400",
             ])}
           >
             {log.type === "move" && (
@@ -39,10 +39,10 @@ export default function Logs(): JSX.Element {
               <span
                 className={cc([
                   "group relative mr-2 inline-flex justify-center",
-                  log.prefix === "대성공" && "text-green-500",
-                  log.prefix === "성공" && "text-yellow-500",
-                  log.prefix === "실패" && "text-orange-500",
-                  log.prefix === "대실패" && "text-red-500",
+                  log.prefix === "대성공" && "text-green-400",
+                  log.prefix === "성공" && "text-yellow-400",
+                  log.prefix === "실패" && "text-orange-400",
+                  log.prefix === "대실패" && "text-red-400",
                 ])}
               >
                 {log.info && (
@@ -66,7 +66,7 @@ export default function Logs(): JSX.Element {
                   <div
                     key={i}
                     className={cc([
-                      change.value > 0 ? "text-green-500" : "text-red-500",
+                      change.value > 0 ? "text-green-400" : "text-red-400",
                     ])}
                   >
                     {change.key} {change.value > 0 && "+"}
