@@ -32,6 +32,7 @@ export default function Input({
     addHp,
     addMp,
     addItem,
+    addTitle,
     encounter,
     addStatus,
     cleared,
@@ -39,6 +40,7 @@ export default function Input({
     npc,
     addNpc,
     clear,
+    addExp,
   } = useData();
 
   const handleSend = useCallback(async (): Promise<void> => {
@@ -68,6 +70,8 @@ export default function Input({
         items,
         npc,
         map,
+        logs: logs.slice(-5).map((log) => log.type + ": " + log.text),
+        title: user.title,
       });
       const { result, value: val } = getResult(type, user, difficulty);
       const log = await getLog({
@@ -75,29 +79,26 @@ export default function Input({
         result,
         map: { ...map, monster: cleared ? null : monster },
         logs: [...logs.slice(-10).map((log) => log.type + ": " + log.text)],
-        user: user.name,
+        user,
         items,
         monster,
-        gold: user.gold,
-        hp: user.hp,
-        mp: user.mp,
       });
       addLog({ text: value, type: "user", changes: [] });
       setValue("");
 
       const c: LogType["changes"] = [];
-      if (log.hp) {
-        addHp(log.hp);
+      if (log.hpChange) {
+        addHp(log.hpChange);
         c.push({
           key: "HP",
-          value: log.hp,
+          value: log.hpChange,
         });
       }
-      if (log.mp) {
-        addMp(log.mp);
+      if (log.mpChange) {
+        addMp(log.mpChange);
         c.push({
           key: "MP",
-          value: log.mp,
+          value: log.mpChange,
         });
       }
       if (log.damage) {
@@ -107,15 +108,22 @@ export default function Input({
           value: log.damage,
         });
       }
-      if (log.gold) {
-        setUser({ ...user, gold: user.gold + log.gold });
+      if (log.exp) {
+        addExp(log.exp);
         c.push({
-          key: "골드",
-          value: log.gold,
+          key: "EXP",
+          value: log.exp,
         });
       }
-      if (log.status?.length > 0) {
-        log.status.forEach((status) => {
+      if (log.goldChange) {
+        setUser({ ...user, gold: user.gold + log.goldChange });
+        c.push({
+          key: "골드",
+          value: log.goldChange,
+        });
+      }
+      if (log.statusChange?.length > 0) {
+        log.statusChange.forEach((status) => {
           if (status.value === 0) return;
           addStatus(status.key.toLowerCase(), status.value);
           c.push({
@@ -125,8 +133,8 @@ export default function Input({
           return;
         });
       }
-      if (log.items?.length > 0) {
-        log.items.forEach((item) => {
+      if (log.itemsChange?.length > 0) {
+        log.itemsChange.forEach((item) => {
           if (item.change === 0) return;
           addItem(item, item.change);
           c.push({
@@ -135,7 +143,16 @@ export default function Input({
           });
         });
       }
-      if (log.encounter_monster) {
+      if (log.title?.length > 0) {
+        log.title.forEach((title) => {
+          addTitle(title.key, title.name, title.description);
+          c.push({
+            key: title.name,
+            value: 1,
+          });
+        });
+      }
+      if (log.encounteredMonster) {
         encounter();
       }
       addLog({
@@ -163,7 +180,7 @@ export default function Input({
               type: "npc",
               changes: [],
             }),
-              500 * i;
+              1000 + 500 * i;
           });
         });
       }

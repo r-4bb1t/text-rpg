@@ -9,18 +9,8 @@ const openai = new OpenAI({
 });
 
 export const getText = async (ctx: Context) => {
-  const {
-    action,
-    result,
-    map,
-    logs,
-    monster,
-    user,
-    items,
-    gold,
-    hp,
-    mp,
-  }: LogInputType = ctx.request.body;
+  const { action, result, map, logs, monster, user, items }: LogInputType =
+    ctx.request.body;
 
   const completion = await openai.chat.completions.create({
     messages: [
@@ -34,9 +24,6 @@ export const getText = async (ctx: Context) => {
           user,
           action,
           result,
-          gold,
-          hp,
-          mp,
         }),
       },
     ],
@@ -53,19 +40,20 @@ export const getText = async (ctx: Context) => {
         ?.replaceAll("```json", "")
         ?.replaceAll("```", "") || "",
     );
-    ctx.body = JSON.stringify({ ...res });
+    ctx.body = JSON.stringify({ ...res, clear: res.clear ?? false });
   } catch (e) {
     console.log(e);
   }
 };
 
 export const getActionType = async (ctx: Context) => {
-  const { text, items, npc, map }: ActionInputType = ctx.request.body;
+  const { text, items, npc, map, logs, title }: ActionInputType =
+    ctx.request.body;
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: actionPrompt({ map, text, items, npc }),
+        content: actionPrompt({ map, text, items, npc, logs, title }),
       },
     ],
     model: "gpt-4o",

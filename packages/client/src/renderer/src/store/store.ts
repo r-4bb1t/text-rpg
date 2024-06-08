@@ -1,3 +1,4 @@
+import { josa } from "es-hangul";
 import { create } from "zustand";
 
 import { RESTARTMAP, STARTMAP } from "@shared/map";
@@ -15,6 +16,9 @@ export interface Store {
 
   addHp: (hp: number) => void;
   addMp: (mp: number) => void;
+  addStatus: (key: string, value: number) => void;
+  addTitle: (key: string, name: string, description: string) => void;
+  addExp: (exp: number) => void;
 
   logs: LogType[];
   addLog: (log: LogType) => void;
@@ -41,8 +45,6 @@ export interface Store {
   cleared: boolean;
   clear: () => void;
 
-  addStatus: (key: string, value: number) => void;
-
   reset: () => void;
 }
 
@@ -60,6 +62,13 @@ export const useData = create<Store>((set) => ({
     mp: getMaxMP(1),
 
     gold: 0,
+    title: [
+      {
+        key: "beginner",
+        name: "초보자",
+        description: "열정에 가득찬 초보 모험가",
+      },
+    ],
   },
   setUser: (user): void => set({ user }),
 
@@ -83,6 +92,58 @@ export const useData = create<Store>((set) => ({
         user: {
           ...state.user,
           [key]: state.user[key as "int" | "dex" | "str" | "luk"] + value,
+        },
+      };
+    }),
+  addExp: (e): void =>
+    set((state) => {
+      let exp = state.user.exp + e;
+      let level = state.user.level;
+      let hp = state.user.hp;
+      let mp = state.user.mp;
+
+      while (exp >= getMaxExp(state.user.level)) {
+        exp -= getMaxExp(state.user.level);
+        level += 1;
+        hp = getMaxHP(level);
+        mp = getMaxMP(level);
+      }
+
+      return {
+        user: {
+          ...state.user,
+          level,
+          exp,
+          hp,
+          mp,
+          dex: state.user.dex + level - state.user.level,
+          str: state.user.str + level - state.user.level,
+          int: state.user.int + level - state.user.level,
+          luk: state.user.luk + level - state.user.level,
+        },
+      };
+    }),
+
+  addTitle: (key, name, description): void =>
+    set((state) => {
+      if (state.user.title.find((t) => t.key === key)) {
+        return {
+          user: {
+            ...state.user,
+            title: state.user.title.map((t) => {
+              if (t.key === key) {
+                return { key, name, description };
+              }
+              return t;
+            }),
+          },
+        };
+      }
+
+      return {
+        user: {
+          ...state.user,
+          title: [...state.user.title, { key, name, description }],
         },
       };
     }),
@@ -210,7 +271,7 @@ export const useData = create<Store>((set) => ({
         exp -= getMaxExp(state.user.level);
         level += 1;
         hp = getMaxHP(level);
-        mp = getMaxHP(level);
+        mp = getMaxMP(level);
       }
 
       return {
@@ -231,10 +292,10 @@ export const useData = create<Store>((set) => ({
           ...state.logs,
           {
             type: "system",
-            text: `${state.map.name}을 클리어해 경험치 ${getExp(state.monster!.level)}와 골드 ${state.monster!.gold}를 획득했다.`,
+            text: `${josa(state.map.name, "을/를")} 클리어해 경험치 ${getExp(state.monster!.level)}와 골드 ${state.monster!.gold}를 획득했다.`,
             changes: [
               { key: "골드", value: gold },
-              { key: "exp", value: getExp(state.monster!.level) },
+              { key: "EXP", value: getExp(state.monster!.level) },
             ],
           },
         ],
@@ -243,53 +304,69 @@ export const useData = create<Store>((set) => ({
   },
 
   reset: (): void => {
-    set((state) => ({
-      user: {
-        ...state.user,
-        level: 1,
-        hp: getMaxHP(1),
-        mp: getMaxMP(1),
-      },
-      logs: [
-        ...state.logs,
-        {
-          text: "새로운 모험을 시작합니다.",
-          type: "system",
-          changes: [],
+    set((state) => {
+      const title = state.user.title;
+      if (title.find((t) => t.key === "beginner")) {
+        title.splice(
+          title.findIndex((t) => t.key === "beginner"),
+          1,
+        );
+      } else if (!title.find((t) => t.key === "restarter")) {
+        title.push({
+          key: "restarter",
+          name: "다시 시작한 자",
+          description: "쓰러져도 굴하지 않는다",
+        });
+      }
+      return {
+        user: {
+          ...state.user,
+          level: 1,
+          hp: getMaxHP(1),
+          mp: getMaxMP(1),
+          title,
         },
-      ],
-      items: [
-        {
-          item: {
-            key: "wooden_stick",
-            name: "나무 막대기",
-            description: "공격력 10을 가진 나무 막대기",
+        logs: [
+          ...state.logs,
+          {
+            text: "새로운 모험을 시작합니다.",
+            type: "system",
+            changes: [],
           },
-          count: 1,
-        },
-        {
-          item: {
-            key: "red_potion",
-            name: "빨간 포션",
-            description: "체력을 20 회복해주는 포션",
+        ],
+        items: [
+          {
+            item: {
+              key: "wooden_stick",
+              name: "나무 막대기",
+              description: "공격력 10을 가진 나무 막대기",
+            },
+            count: 1,
           },
-          count: 2,
-        },
-        {
-          item: {
-            key: "bread",
-            name: "빵",
-            description: "아무 효과도 없는 퍽퍽한 빵",
+          {
+            item: {
+              key: "red_potion",
+              name: "빨간 포션",
+              description: "체력을 20 회복해주는 포션",
+            },
+            count: 2,
           },
-          count: 1,
-        },
-      ],
-      monster: null,
-      npc: [],
-      map: RESTARTMAP,
-      route: [RESTARTMAP],
-      cleared: false,
-    }));
+          {
+            item: {
+              key: "bread",
+              name: "빵",
+              description: "아무 효과도 없는 퍽퍽한 빵",
+            },
+            count: 1,
+          },
+        ],
+        monster: null,
+        npc: [],
+        map: RESTARTMAP,
+        route: [RESTARTMAP],
+        cleared: false,
+      };
+    });
   },
 }));
 

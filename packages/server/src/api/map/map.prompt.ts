@@ -2,9 +2,8 @@ import { ENVIRONMENTS } from "@shared/environments";
 
 export const mapPrompt = (user: string, maxLevel: number) => `
 중세 시대의 모험을 떠나는 모험가가 탐험할 수 있는 맵을 만들어주세요.
-맵은 여러 환경과 NPC, 몬스터로 구성되어 있습니다. 실내, 실외, 던전, 마을 등 다양한 환경을 만들어주세요.
-바닷가, 폐허, 산, 사막, 동굴, 성 등 다양한 환경을 만들 수 있습니다.
-몬스터가 없는 상점이나 마을도 만들 수 있습니다. 몬스터가 없으면 monster를 null로 설정해주세요.
+맵은 바닷가, 폐허, 산, 사막, 동굴, 성, 숲, 몬스터가 없는 상점이나 마을 중 하나로 설정해주세요.
+몬스터가 없는 마을이나 상점이라면 monster를 null로 설정해주세요.
 모험가의 이름은 ${user}입니다.
 
 example:
@@ -54,7 +53,7 @@ example:
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
 {
   "key": string; // 맵의 key입니다. 영어로 작성해주세요.
-  "name": string; // 맵의 이름입니다.
+  "name": string; // 맵의 이름입니다. 너무 간단하지 않게 작성해주세요.
   "description": string; // 맵에 대한 간단한 설명입니다.
   "longDescription": string; // 맵에 대한 자세한 설명입니다. 지형을 최대한 상세히 작성해주세요.
   "startLogs": string[]; // 맵에 입장했을 때 나타나는 로그입니다. 최대한 상세한 주변 상황을 작성해주세요.
@@ -62,6 +61,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
   "monster": {
     "name": string; // 몬스터의 이름입니다.
     "description": string; // 몬스터에 대한 간단한 설명입니다.
+    "longDescription": string; // 몬스터에 대한 자세한 설명입니다. 약점, 묘사 등을 최대한 상세히 작성해주세요.
     "personality": string; // 몬스터의 성격입니다.
 
     "level": number; // 1~${maxLevel} (최대 ${maxLevel})

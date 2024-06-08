@@ -11,6 +11,11 @@ export interface UserType {
   int: number;
 
   gold: number;
+  title: {
+    key: string;
+    name: string;
+    description: string;
+  }[];
 }
 
 export type SkillTypes = "STR" | "DEX" | "LUK" | "INT";

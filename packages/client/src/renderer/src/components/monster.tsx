@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useData } from "../store/store";
 import cc from "classcat";
 
-import { getMaxHP } from "@shared/utils/level";
+import { getMonsterMaxHP } from "@shared/utils/level";
 
 export default function Monster({
   moving,
@@ -57,7 +57,7 @@ export default function Monster({
             )}
           </div>
           <div>
-            HP: {monster.hp} / {getMaxHP(monster.level)}
+            HP: {monster.hp} / {getMonsterMaxHP(monster.level)}
           </div>
         </>
       )}

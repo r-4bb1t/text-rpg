@@ -1,6 +1,7 @@
 export interface MonsterType {
   name: string;
   description: string;
+  longDescription: string;
   personality: string;
   place: string;
 
@@ -8,6 +9,6 @@ export interface MonsterType {
   hp: number;
   maxHp: number;
   encountered: boolean;
-  
+
   gold: number;
 }

@@ -1,5 +1,6 @@
 import { ItemType } from "./item";
 import { MapType } from "./map";
+import { UserType } from "./user";
 
 export interface LogInputType {
   action: string;
@@ -7,22 +8,24 @@ export interface LogInputType {
   map: MapType;
   logs: string[];
   monster?: MonsterType;
-  user: string;
+  user: UserType;
   items: {
     item: ItemType;
     count: number;
   }[];
-  gold: number;
-  hp: number;
-  mp: number;
 }
 
 export interface LogOutputType {
   text: string;
-  items: { key: string; name: string; description: string; change: number }[];
-  hp?: number;
-  mp?: number;
-  gold?: number;
+  itemsChange: {
+    key: string;
+    name: string;
+    description: string;
+    change: number;
+  }[];
+  hpChange?: number;
+  mpChange?: number;
+  goldChange?: number;
   damage?: number;
   script: {
     npc: {
@@ -34,9 +37,11 @@ export interface LogOutputType {
     };
     utterance: string;
   }[];
-  encounter_monster: boolean;
+  encounteredMonster: boolean;
   clear: boolean;
-  status: { key: string; value: number }[];
+  title: { key: string; name: string; description: string }[];
+  statusChange: { key: string; value: number }[];
+  exp: number;
 }
 
 export interface MapInputType {
@@ -52,4 +57,10 @@ export interface ActionInputType {
     count: number;
   }[];
   npc: NPCType[];
+  logs: string[];
+  title: {
+    key: string;
+    name: string;
+    description: string;
+  }[];
 }
