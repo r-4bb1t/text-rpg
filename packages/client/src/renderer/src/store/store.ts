@@ -61,7 +61,7 @@ export const useData = create<Store>((set) => ({
     hp: getMaxHP(1),
     mp: getMaxMP(1),
 
-    gold: 0,
+    gold: 100,
     title: [
       {
         key: "beginner",

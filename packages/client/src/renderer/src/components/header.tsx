@@ -5,20 +5,17 @@ export default function Header(): JSX.Element {
   const { map } = useData();
   return (
     <header className="flex items-center justify-between">
-      <div>
+      <div className="text-sm">
         {map.name}
-        <div className="text-sm">{map.description}</div>
+        <div className="text-xs">{map.description}</div>
       </div>
       <div className="flex items-center gap-2">
         {map.environments.map((env) => {
           const Icon = icons[env.icon as keyof typeof icons];
           return (
-            <div
-              key={env.name}
-              className="group relative flex items-center justify-center"
-            >
-              <Icon className="stroke-1" size={24} />
-              <div className="hover">{env.name}</div>
+            <div key={env.name} className="flex items-center gap-2 text-sm">
+              <Icon className="stroke-2" size={20} />
+              {env.name}
             </div>
           );
         })}

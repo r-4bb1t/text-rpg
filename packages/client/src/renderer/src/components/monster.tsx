@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { useData } from "../store/store";
 import cc from "classcat";
+import { Crown } from "lucide-react";
 
 import { getMonsterMaxHP } from "@shared/utils/level";
 
@@ -37,7 +38,8 @@ export default function Monster({
       ])}
     >
       {cleared ? (
-        <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center text-sm">
+          <Crown size={16} className="stroke-2" />
           스테이지를 클리어했습니다.
           <button
             className="btn btn-sm mt-2"
@@ -63,7 +65,7 @@ export default function Monster({
       )}
     </div>
   ) : map.key !== "start" ? (
-    <div className="border-primary flex shrink-0 flex-col items-center justify-between border px-4 py-2">
+    <div className="border-primary flex shrink-0 flex-col items-center justify-between border px-4 py-2 text-sm">
       여기에는 몬스터가 없는 것 같습니다.
       <button
         className="btn btn-sm mt-2"

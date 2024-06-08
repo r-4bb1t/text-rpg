@@ -58,39 +58,43 @@ export default function Status(): JSX.Element {
         </div>
       </div>
 
-      {user.title.length > 0 && (
-        <div className="mt-2 flex items-center gap-2">
-          <div className="w-8">칭호</div>
-          {user.title.map((title) => {
-            return (
-              <div
-                className="border-primary group relative flex flex-wrap items-center justify-center gap-1 border px-2 py-0.5 text-xs"
-                key={title.key}
-              >
-                <div className="hover">{title.description}</div>
-                {title.name}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className="flex gap-2">
+        <div className="w-8 shrink-0 pt-2">칭호</div>
+        {user.title.length > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {user.title.map((title) => {
+              return (
+                <div
+                  className="border-primary group relative flex items-center justify-center gap-1 border px-2 py-0.5 text-xs"
+                  key={title.key}
+                >
+                  <div className="hover">{title.description}</div>
+                  {title.name}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
-      {items.length > 0 && (
-        <div className="mt-2 flex items-center gap-2">
-          <div className="w-8">가방</div>
-          {items.map((item) => {
-            return (
-              <div
-                className="border-primary group relative flex flex-wrap items-center justify-center gap-1 border px-2 py-0.5 text-xs"
-                key={item.item.key}
-              >
-                <div className="hover">{item.item.description}</div>
-                {item.item.name} x {item.count}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className="flex gap-2">
+        <div className="w-8 shrink-0 pt-2">가방</div>
+        {items.length > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {items.map((item) => {
+              return (
+                <div
+                  className="border-primary group relative flex items-center justify-center gap-1 border px-2 py-0.5 text-xs"
+                  key={item.item.key}
+                >
+                  <div className="hover">{item.item.description}</div>
+                  {item.item.name} x {item.count}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
