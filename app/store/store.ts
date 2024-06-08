@@ -48,11 +48,13 @@ export interface Store {
   clear: () => void;
 
   reset: () => void;
+  highscore: number;
 }
 
 export const useData = create(
   persist<Store>(
     (set) => ({
+      highscore: 1,
       user: {
         name: "",
         level: 1,
@@ -138,7 +140,7 @@ export const useData = create(
               user: {
                 ...state.user,
                 title: state.user.title.map((t) => {
-                  if (t.key === key) {
+                  if (t.key == key) {
                     return { key, name, description };
                   }
                   return t;
@@ -393,6 +395,7 @@ export const useData = create(
             map: RESTARTMAP,
             route: [RESTARTMAP],
             cleared: false,
+            highscore: Math.max(state.highscore, state.user.level),
           };
         });
       },

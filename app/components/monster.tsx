@@ -43,7 +43,15 @@ export default function Monster({
     } finally {
       setMoving(false);
     }
-  }, [move, setMoving, user.name]);
+  }, [
+    setMoving,
+    user.name,
+    user.level,
+    move,
+    addLog,
+    map.startLogs.length,
+    setLoading,
+  ]);
 
   return monster ? (
     <div

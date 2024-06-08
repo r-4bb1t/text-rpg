@@ -19,5 +19,5 @@ export const getExp = (level: number): number => {
 };
 
 export const getDifficulty = (level: number): number => {
-  return Math.floor(Math.sqrt(level) * 40);
+  return Math.floor(Math.sqrt(level * 1000));
 };

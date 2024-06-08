@@ -173,7 +173,9 @@ export default function Input({
           if (item.change === 0) return;
           addItem(item, item.change);
           c.push({
-            key: item.name,
+            key:
+              items.find((i) => i.item.key === item.key)?.item.name ||
+              item.name,
             value: item.change,
           });
         });
@@ -201,7 +203,7 @@ export default function Input({
         type: "system",
         changes: c,
       });
-      if (log.clear || (monster && monster?.hp <= 0)) {
+      if (!cleared && (log.clear || (monster && monster?.hp <= 0))) {
         clear();
       }
 
