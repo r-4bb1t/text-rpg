@@ -36,7 +36,6 @@ export interface Store {
   initMonster: (monster: MonsterType) => void;
   encounter: () => void;
 
-  npc: NPCType[];
   addNpc: (npc: NPCType) => void;
 
   map: MapType;
@@ -226,13 +225,19 @@ export const useData = create(
         });
       },
 
-      npc: [],
       addNpc: (npc): void =>
         set((state) => {
-          if (state.npc.find((n) => n.key === npc.key)) {
-            return state;
-          }
-          return { npc: [...state.npc, npc] };
+          return {
+            map: {
+              ...state.map,
+              npc: state.map.npc.map((n) => {
+                if (n.key === npc.key) {
+                  return npc;
+                }
+                return n;
+              }),
+            },
+          };
         }),
 
       map: STARTMAP,

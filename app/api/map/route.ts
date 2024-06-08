@@ -1,6 +1,7 @@
 import { mapPrompt } from "./map.prompt";
 import OpenAI from "openai";
 
+import { MapType } from "@/app/types/map";
 import { getMonsterMaxHP } from "@/app/utils/level";
 
 const openai = new OpenAI({
@@ -20,7 +21,7 @@ export const POST = async (req: Request) => {
     temperature: 1,
   });
   console.log(completion.choices[0].message.content);
-  const map = JSON.parse(
+  const map: MapType = JSON.parse(
     completion.choices[0].message.content
       ?.replaceAll("```json", "")
       ?.replaceAll("```", "") || "",
@@ -37,5 +38,6 @@ export const POST = async (req: Request) => {
             maxHP: getMonsterMaxHP(map.monster.level),
             encountered: false,
           },
+    npc: map.npc.map((n) => ({ ...n, encountered: false, likeability: 0 })),
   });
 };

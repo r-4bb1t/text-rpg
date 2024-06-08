@@ -38,7 +38,7 @@ ${items.map((item) => `[key: ${item.item.key}] ${item.item.name} ${item.count}�
 ${user.gold} 골드
 
 [마주치는 것이 가능한 NPC]
-${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n.place} / 성격: ${n.personality}`).join("\n")}
+${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n.place} / 성격: ${n.personality} / ${user.name}에 대한 호감도: ${n.likeability} / ${n.encountered ? `${user.name}와 마주친 상태다.` : `아직 ${user.name}와 마주치지 않았다.`}`).join("\n")}
 
 [${user.name}의 상태]
 - hp: ${user.hp} / ${getMaxHP(user.level)}
@@ -91,7 +91,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "mpChange"?: number;
     "goldChange"?: number; // 돈을 얻으면 양수, 잃으면 음수
     ${monster ? `"damage"?: number;` : ""},
-    "script": { "npc": { "key": string, "name": string, "description": string, "personality": string }, "utterance": string }[],
+    "script": { "npc": { "key": string, "name": string, "description": string, "personality": string, "encountered": boolean, "likeability": number  }, "utterance": string }[],
     "encounteredMonster": boolean,
     ${monster ? `"clear": boolean` : ""},
     "title": { "key": string; "name": string; "description": string }[],

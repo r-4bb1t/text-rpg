@@ -1,5 +1,6 @@
 import { ItemType } from "./item";
 import { MapType } from "./map";
+import { NPCType } from "./npc";
 import { UserType } from "./user";
 
 export interface LogInputType {
@@ -28,13 +29,7 @@ export interface LogOutputType {
   goldChange?: number;
   damage?: number;
   script: {
-    npc: {
-      key: string;
-      name: string;
-      description: string;
-      personality: string;
-      place: string;
-    };
+    npc: NPCType;
     utterance: string;
   }[];
   encounteredMonster: boolean;

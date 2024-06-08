@@ -39,7 +39,6 @@ export default function Input({
     addStatus,
     cleared,
     attack,
-    npc,
     addNpc,
     clear,
     addExp,
@@ -88,7 +87,7 @@ export default function Input({
       const { type, difficulty } = await getActionType({
         text: value,
         items,
-        npc,
+        npc: map.npc.filter((n) => n.encountered),
         map,
         logs: logs.slice(-5).map((log) => log.type + ": " + log.text),
         title: user.title,
@@ -208,6 +207,7 @@ export default function Input({
 
       if (log.script?.length > 0) {
         log.script.forEach((script, i) => {
+          if (script.utterance === "") return;
           addNpc(script.npc);
           setTimeout(() => {
             addLog({
