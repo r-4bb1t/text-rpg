@@ -51,9 +51,7 @@ export const getResult = (
       break;
   }
 
-  value = Math.sqrt(Math.random()) * value * 1.5; // 0~value
-
-  console.log(type, difficulty, value);
+  value = Math.sqrt(Math.random() * value) * 3.5; // 0~value
 
   switch (true) {
     case value < difficulty / 4:

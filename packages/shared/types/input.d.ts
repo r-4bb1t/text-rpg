@@ -63,4 +63,5 @@ export interface ActionInputType {
     name: string;
     description: string;
   }[];
+  difficulty: number;
 }

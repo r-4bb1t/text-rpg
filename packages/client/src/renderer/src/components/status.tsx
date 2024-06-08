@@ -15,10 +15,10 @@ import { getMaxExp, getMaxHP, getMaxMP } from "@shared/utils/level";
 export default function Status(): JSX.Element {
   const { user, items } = useData();
   return (
-    <div className="border-primary border p-4 text-sm">
+    <div className="border-primary flex flex-col gap-1 border p-4 text-sm">
       <div className="flex items-center justify-between">
         <div>
-          {user.name || "-"} Lv. {user.level} (
+          {user.name || "???"} Lv. {user.level} (
           {Math.round((user.exp / getMaxExp(user.level)) * 100)}%)
         </div>
         <div
@@ -53,7 +53,7 @@ export default function Status(): JSX.Element {
           <Clover size={16} />
           <b>LUK</b> {user.luk}
         </div>
-        <div className="flex items-center gap-1 stroke-1">
+        <div className="flex items-center gap-1 stroke-1 text-yellow-400">
           <BadgeDollarSign size={16} /> {user.gold}
         </div>
       </div>

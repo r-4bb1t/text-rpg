@@ -17,11 +17,13 @@ export interface Store {
   addHp: (hp: number) => void;
   addMp: (mp: number) => void;
   addStatus: (key: string, value: number) => void;
-  addTitle: (key: string, name: string, description: string) => void;
   addExp: (exp: number) => void;
 
   logs: LogType[];
   addLog: (log: LogType) => void;
+
+  addTitle: (key: string, name: string, description: string) => void;
+  removeTitle: (key: string) => void;
 
   items: {
     item: ItemType;
@@ -146,6 +148,18 @@ export const useData = create<Store>((set) => ({
           title: [...state.user.title, { key, name, description }],
         },
       };
+    }),
+  removeTitle: (key): void =>
+    set((state) => {
+      if (state.user.title.find((t) => t.key === key)) {
+        return {
+          user: {
+            ...state.user,
+            title: state.user.title.filter((t) => t.key !== key),
+          },
+        };
+      }
+      return state;
     }),
 
   logs: [],
@@ -311,7 +325,8 @@ export const useData = create<Store>((set) => ({
           title.findIndex((t) => t.key === "beginner"),
           1,
         );
-      } else if (!title.find((t) => t.key === "restarter")) {
+      }
+      if (!title.find((t) => t.key === "restarter")) {
         title.push({
           key: "restarter",
           name: "다시 시작한 자",
@@ -325,6 +340,7 @@ export const useData = create<Store>((set) => ({
           hp: getMaxHP(1),
           mp: getMaxMP(1),
           title,
+          exp: 0,
         },
         logs: [
           ...state.logs,

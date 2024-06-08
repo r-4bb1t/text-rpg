@@ -77,8 +77,9 @@ ${
     : ""
 }
 status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되면 1~2를 증가시킨다.
-새로운 칭호를 얻었을 경우 title에 반환한다. 칭호는 ${user.name}의 행동의 결과에 영향을 줄 수 있는 요소로, 예를 들면 { key: "flame_wizard", name: "불의 마법을 배운 자", description: "불의 마법을 더 잘 쓸 수 있다." } 와 같다.
-같은 계열의 칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다.
+새로운 칭호를 추가하거나 칭호가 강화될 경우 title에 반환한다.
+칭호는 ${user.name}의 행동의 결과에 영향을 줄 수 있는 요소로, 예를 들면 { key: "flame_wizard", name: "불의 마법을 배운 자", description: "불의 마법을 더 잘 쓸 수 있다." } 와 같다.
+칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다. 같은 계열의 칭호만 강화할 수 있다. 
 
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
 {
@@ -93,7 +94,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     ${monster ? `"clear": boolean` : ""},
     "title": { "key": string; "name": string; "description": string }[],
     "statusChange": { "key": string; "value": number }[],
-    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 30)} (최대 ${Math.floor(getMaxExp(user.level) / 30)})
+    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 40)} (최대 ${Math.floor(getMaxExp(user.level) / 40)})
 }
 `;
 
@@ -104,10 +105,11 @@ export const actionPrompt = ({
   map,
   logs,
   title,
+  difficulty,
 }: ActionInputType) => `다음 유저의 행동이 어떤 종류의 능력을 사용하며, 난이도가 얼마나 높은지 (현실적인 계산법으로) 출력하라.
 유저의 아이템이나 칭호 등을 고려하여 난이도를 계산하라.
 [능력 종류] STR, DEX, INT, LUK
-[난이도 범위] 1~50
+[난이도 범위] 1~${difficulty}
 [행동] ${text}
 
 [소지한 아이템] ${items.map((item) => `${item.item.name} (${item.item.description}) ${item.count}개`).join(", ")}

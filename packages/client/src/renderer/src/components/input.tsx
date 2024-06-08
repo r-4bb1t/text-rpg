@@ -6,6 +6,7 @@ import { josa } from "es-hangul";
 import { Footprints } from "lucide-react";
 
 import { LogType } from "@shared/types/log";
+import { getDifficulty } from "@shared/utils/level";
 
 export default function Input({
   loading,
@@ -72,6 +73,7 @@ export default function Input({
         map,
         logs: logs.slice(-5).map((log) => log.type + ": " + log.text),
         title: user.title,
+        difficulty: getDifficulty(user.level),
       });
       const { result, value: val } = getResult(type, user, difficulty);
       const log = await getLog({
@@ -159,14 +161,14 @@ export default function Input({
         prefix: result,
         info: {
           type,
-          difficulty,
-          value: val,
+          difficulty: difficulty / getDifficulty(user.level),
+          value: val / getDifficulty(user.level),
         },
         text: log.text,
         type: "system",
         changes: c,
       });
-      if (log.clear) {
+      if (log.clear || (monster && monster?.hp <= 0)) {
         clear();
       }
 

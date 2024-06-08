@@ -47,13 +47,21 @@ export const getText = async (ctx: Context) => {
 };
 
 export const getActionType = async (ctx: Context) => {
-  const { text, items, npc, map, logs, title }: ActionInputType =
+  const { text, items, npc, map, logs, title, difficulty }: ActionInputType =
     ctx.request.body;
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: actionPrompt({ map, text, items, npc, logs, title }),
+        content: actionPrompt({
+          map,
+          text,
+          items,
+          npc,
+          logs,
+          title,
+          difficulty,
+        }),
       },
     ],
     model: "gpt-4o",
