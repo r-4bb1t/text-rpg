@@ -9,6 +9,7 @@ import Monster from "./components/monster";
 import Status from "./components/status";
 import { useData } from "./store/store";
 import { josa } from "es-hangul";
+import { Sparkles } from "lucide-react";
 
 function App(): JSX.Element {
   const [loading, setLoading] = useState(false);
