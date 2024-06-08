@@ -1,15 +1,14 @@
 import { mapPrompt } from "./map.prompt";
-import { Context } from "koa";
 import OpenAI from "openai";
 
-import { getMonsterMaxHP } from "@shared/utils/level";
+import { getMonsterMaxHP } from "@/app/utils/level";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY || "",
 });
 
-export const getMap = async (ctx: Context) => {
-  const { user, maxLevel } = ctx.request.body;
+export const POST = async (req: Request) => {
+  const { user, maxLevel } = await req.json();
   const completion = await openai.chat.completions.create({
     messages: [
       {
@@ -26,7 +25,7 @@ export const getMap = async (ctx: Context) => {
       ?.replaceAll("```", "") || "",
   );
   console.log(map);
-  ctx.body = JSON.stringify({
+  return Response.json({
     ...map,
     monster:
       map.monster === null

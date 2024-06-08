@@ -1,4 +1,4 @@
-import { ENVIRONMENTS } from "@shared/environments";
+import { ENVIRONMENTS } from "@/app/types/environments";
 
 export const mapPrompt = (user: string, maxLevel: number) => `
 중세 시대의 모험을 떠나는 모험가가 탐험할 수 있는 맵을 만들어주세요.

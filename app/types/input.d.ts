@@ -65,3 +65,8 @@ export interface ActionInputType {
   }[];
   difficulty: number;
 }
+
+export interface ActionOutputType {
+  type: SkillTypes;
+  difficulty: number;
+}

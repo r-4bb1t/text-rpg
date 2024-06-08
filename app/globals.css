@@ -1,33 +1,37 @@
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  font-family: "Wanted Sans", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.fadein {
+  animation: fadein 1s;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .hover {
+    @apply pointer-events-none absolute bottom-[calc(100%+0.5rem)] whitespace-nowrap border border-primary bg-gray-950 px-3 py-0.5 text-sm text-primary opacity-0 group-hover:opacity-100;
+  }
+  .hover-left {
+    @apply left-0;
+  }
+  .btn {
+    @apply shrink-0 border border-primary px-4 py-2 hover:bg-primary hover:text-black disabled:opacity-20 disabled:hover:!bg-transparent disabled:hover:!text-primary;
+  }
+  .btn-sm {
+    @apply px-2 py-0.5 text-sm;
   }
 }
