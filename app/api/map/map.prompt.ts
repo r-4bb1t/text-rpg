@@ -77,7 +77,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "description": string; // NPC에 대한 간단한 설명입니다.
     "personality": string; // NPC의 성격입니다.
     "place": string; // NPC가 출몰하는 위치입니다. 맵 안의 공간을 작성해주세요.
-  }[]; // 맵에 등장하는 NPC들입니다. 없으면 빈 배열을 넣어주세요.
+  }[]; // 맵에 등장하는 NPC들입니다. 없으면 빈 배열을 넣어주세요. (최대 3명)
 
   "environments": { 
     "key": string; // 환경의 key입니다. 영어로 작성해주세요.

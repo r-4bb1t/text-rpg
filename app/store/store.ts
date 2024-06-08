@@ -349,7 +349,7 @@ export const useData = create(
             logs: [
               ...state.logs,
               {
-                text: "쉼터에서 재정비를 마치고 다시 모험을 떠난다...",
+                text: "레벨도 초기화되고 가진 것도 모두 잃었지만 쉼터에서 재정비를 마치고 다시 모험을 떠난다...",
                 type: "system",
                 changes: [],
               },

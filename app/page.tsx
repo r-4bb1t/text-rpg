@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/header";
 import Input from "./components/input";
@@ -14,7 +14,7 @@ function App(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [moving, setMoving] = useState(false);
 
-  const { user, addLog, reset, map, logs } = useData();
+  const { user, addLog, reset, map } = useData();
 
   useEffect(() => {
     if (user.hp <= 0) {
@@ -35,8 +35,7 @@ function App(): JSX.Element {
   }, [user.hp, user.name, addLog]);
 
   useEffect(() => {
-    if (logs.length === 0 && map.key === "start") {
-      setLoading(true);
+    if (!localStorage.getItem("store"))
       map.startLogs.forEach((log, i) => {
         setTimeout(
           () => {
@@ -52,8 +51,7 @@ function App(): JSX.Element {
           1000 + 1500 * i,
         );
       });
-    }
-  }, [map]);
+  }, []);
 
   return (
     <main className="flex h-screen w-full max-w-5xl flex-col gap-4 overflow-hidden p-12 pt-16">
