@@ -88,7 +88,10 @@ export const useData = create(
         set((state) => ({
           user: {
             ...state.user,
-            mp: Math.min(state.user.mp + mp, getMaxMP(state.user.level)),
+            mp: Math.max(
+              0,
+              Math.min(state.user.mp + mp, getMaxMP(state.user.level)),
+            ),
           },
         })),
       addStatus: (key, value): void =>

@@ -6,7 +6,7 @@ import { josa } from "es-hangul";
 import { Footprints } from "lucide-react";
 
 import { LogType } from "@/app//types/log";
-import { getDifficulty } from "@/app//utils/level";
+import { getDifficulty, getMaxMP } from "@/app//utils/level";
 import { getActionType, getLog, getResult } from "@/app/utils/action";
 
 export default function Input({
@@ -131,7 +131,10 @@ export default function Input({
         addMp(log.mpChange);
         c.push({
           key: "MP",
-          value: log.mpChange,
+          value: Math.max(
+            Math.min(log.mpChange, getMaxMP(user.level) - user.mp),
+            -user.mp,
+          ),
         });
       }
       if (log.damage) {

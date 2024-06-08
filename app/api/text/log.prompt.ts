@@ -54,7 +54,8 @@ ${user.title.map((title) => `[key: ${title.key}] ${title.name} - ${title.descrip
 [${user.name}의 행동 혹은 대사]
 ${action}
 
-${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다. (그러나 ${user.mp}가 부족하다면 MP 사용은 실패한다.)
+${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다.
+${user.mp}가 해당 행동을 하는 데에 부족하다면 MP를 사용하는 방식이 아닌 다른 방식으로 ${result}할 수 있다.
 이 때 ${user.name}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라.
 ${user.name}가 주변을 살핀다면 최대한 자세히 적어라.
 ${user.name}가 ${map.npc.map((n) => n.place).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.

@@ -37,7 +37,8 @@ function App(): JSX.Element {
 
   useEffect(() => {
     const store = localStorage.getItem("store");
-    if (!store || JSON.parse(store).logs.length === 0)
+    if (!store || JSON.parse(store).state.logs.length === 0) {
+      setLoading(true);
       map.startLogs.forEach((log, i) => {
         setTimeout(
           () => {
@@ -53,6 +54,7 @@ function App(): JSX.Element {
           1000 + 1500 * i,
         );
       });
+    }
   }, []);
 
   return (

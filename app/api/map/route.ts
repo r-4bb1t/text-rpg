@@ -17,6 +17,7 @@ export const POST = async (req: Request) => {
       },
     ],
     model: "gpt-4o",
+    temperature: 1,
   });
   console.log(completion.choices[0].message.content);
   const map = JSON.parse(
