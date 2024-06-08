@@ -36,7 +36,8 @@ function App(): JSX.Element {
   }, [user.hp, user.name, addLog]);
 
   useEffect(() => {
-    if (!localStorage.getItem("store"))
+    const store = localStorage.getItem("store");
+    if (!store || JSON.parse(store).logs.length === 0)
       map.startLogs.forEach((log, i) => {
         setTimeout(
           () => {
