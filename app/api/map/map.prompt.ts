@@ -22,8 +22,8 @@ example:
   ],
   "monster": {
     "name": "설인",
-    "description": "눈 덮인 산에 살고 있는 설인. 눈을 먹는다. 불에 약하다.",
-    "personality": "사나운",
+    "description": "눈 덮인 산에 살고 있는 설인. 눈을 먹는다. 물리 공격과 불 마법에 약하다. 먹은 눈덩이를 뱉어 공격한다.",
+    "personality": "둔하고 사나운",
     "level": ${maxLevel},
     "gold": 50
   },
@@ -44,7 +44,7 @@ example:
       "key": "mountain_oldman",
       "name": "슈하임",
       "description": "산을 여기저기 돌아다니는 노인.",
-      "personality": "무뚝뚝한, 아리송한, 농담을 좋아하는"
+      "personality": "농담을 좋아하고 알기 어려운"
     }
   ],
   "environments": [
