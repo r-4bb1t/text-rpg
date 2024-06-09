@@ -5,11 +5,11 @@ export default function MapHeader(): JSX.Element {
   const { map } = useData();
   return (
     <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:items-center">
-      <div className="shrink-0 text-sm">
+      <div className="w-full text-sm">
         {map.name}
         <div className="text-xs">{map.description}</div>
       </div>
-      <div className="flex w-full shrink flex-wrap items-center gap-2">
+      <div className="flex shrink-0 flex-wrap items-center gap-2">
         {map.environments.map((env, i) => {
           const Icon = icons[env.icon as keyof typeof icons];
           if (!Icon) return <></>;
