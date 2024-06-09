@@ -8,8 +8,16 @@ const openai = new OpenAI({
 });
 
 export const POST = async (request: Request) => {
-  const { action, result, map, logs, monster, user, items }: LogInputType =
-    await request.json();
+  const {
+    action,
+    result,
+    map,
+    logs,
+    monster,
+    user,
+    items,
+    cleared,
+  }: LogInputType = await request.json();
 
   const completion = await openai.chat.completions.create({
     messages: [
@@ -23,17 +31,18 @@ export const POST = async (request: Request) => {
           user,
           action,
           result,
+          cleared,
         }),
+      },
+      {
+        role: "user",
+        content: `[${user.name}의 행동 혹은 대사]
+${action}`,
       },
     ],
     model: "gpt-4o",
   });
   try {
-    console.log(
-      completion.choices[0].message.content
-        ?.replaceAll("```json", "")
-        ?.replaceAll("```", ""),
-    );
     const res = JSON.parse(
       completion.choices[0].message.content
         ?.replaceAll("```json", "")

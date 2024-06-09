@@ -1,5 +1,6 @@
 import { actionTypeHook } from "../hooks/actionType";
 import { logHook } from "../hooks/log";
+import { getDifficulty } from "./level";
 
 import {
   ActionInputType,
@@ -45,7 +46,7 @@ export const getResult = (
       break;
   }
 
-  value = Math.random() * Math.sqrt(value / 2) * 4 + difficulty / 10; // 0~value
+  value = Math.random() * 0.2 * Math.sqrt(value) * getDifficulty(user.level); // 0~value
 
   switch (true) {
     case value < difficulty / 4:

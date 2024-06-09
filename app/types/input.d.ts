@@ -14,6 +14,7 @@ export interface LogInputType {
     item: ItemType;
     count: number;
   }[];
+  cleared: boolean;
 }
 
 export interface LogOutputType {

@@ -246,7 +246,6 @@ export const useData = create(
       route: [STARTMAP],
 
       move: (newMap: MapType): void => {
-        console.log(newMap.monster);
         set((state) => {
           return {
             map: newMap,

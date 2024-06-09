@@ -9,6 +9,7 @@ export const logPrompt = ({
   action,
   result,
   items,
+  cleared,
 }: LogInputType) => `${user.name}는 현재 ${map.name}의 ${map.userLocation}에 있다.
 
 [로그]
@@ -24,7 +25,7 @@ ${
 레벨: ${monster.level}
 hp: ${monster.hp} / ${monster.maxHp}
 맵 안 위치: ${monster.place}
-${monster.encountered ? `${user.name}와 마주친 상태다.` : `아직 ${user.name}와 마주치지 않았다.`}
+${monster.encountered ? (cleared ? `${user.name}와 마주친 상태다.` : `${user.name}이 해치웠다`) : `아직 ${user.name}와 마주치지 않았다.`}
 `
     : `[몬스터]
 이 맵에는 몬스터가 존재하지 않습니다.`
@@ -43,6 +44,7 @@ ${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n
 [${user.name}의 상태]
 - hp: ${user.hp} / ${getMaxHP(user.level)}
 - mp: ${user.mp} / ${getMaxHP(user.level)}
+- 위치: ${map.userLocation}
 
 ${
   user.title.length > 0
@@ -50,9 +52,6 @@ ${
 ${user.title.map((title) => `[key: ${title.key}] ${title.name} - ${title.description}`).join("\n")}`
     : ""
 }
-
-[${user.name}의 행동 혹은 대사]
-${action}
 
 ${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다.
 ${user.mp}가 해당 행동을 하는 데에 부족하다면 MP를 사용하는 방식이 아닌 다른 방식으로 ${result}할 수 있다.
@@ -70,7 +69,7 @@ ${user.name}가 ${map.npc.map((n) => n.place).join(", ")}에 가서 NPC를 마�
 ${user.name}이/가 가지고 있지 않은 아이템을 먹거나 사용할 경우 무시한다.
 존재하지 않는 아이템을 얻거나 잃는 경우 무시한다.
 상자 등을 열면 해당 상자는 사라진다, 또 문서 등을 읽으면 해당 문서는 사라진다. 장비나 악세서리 등은 착용하면 모두 사라진다.
-NPC를 마주칠 경우 NPC의 key와 대사를 출력하라. NPC를 꼭 마주치지 않아도 되고, 적당히 마주치게 해도 된다.
+${user.name}이 이동에 따라 NPC를 마주칠 경우 NPC의 key와 대사를 출력하라. NPC를 꼭 마주치지 않아도 되고, 적당히 마주치게 해도 된다.
 NPC의 대사가 없으면 script를 빈 배열로 출력하라.
 ${
   monster
@@ -87,7 +86,7 @@ status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되
 
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
 {
-    "text": string, // ~습니다가 아닌 ~다로 끝나야 한다. 결과를 묘사하는 문장이다.
+    "text": string, // ~습니다가 아닌 ~다로 끝나야 한다. 유저의 행동의 ${result} 결과를 묘사하는 문장이다.
     "itemsChange": { "key": string; "name": string; "description": string; "change": number }[], // key는 아이템의 key로, 고유하다.
     "hpChange"?: number;
     "mpChange"?: number;

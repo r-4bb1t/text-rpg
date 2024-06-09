@@ -35,7 +35,7 @@ function App(): JSX.Element {
         move(RESTARTMAP);
       }, 3000);
     }
-  }, [user.hp, user.name, addLog]);
+  }, [user.hp, user.name, addLog, reset, move]);
 
   useEffect(() => {
     const store = localStorage.getItem("store");

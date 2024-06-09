@@ -90,13 +90,19 @@ export default function Input({
         npc: map.npc.filter((n) => n.encountered),
         map,
         logs: logs
-          .slice(-5)
+          .slice(logs.lastIndexOf(logs.find((l) => l.type === "move")!) + 1)
+          .slice(-10)
           .map(
             (log) =>
-              log.type +
-              ": " +
+              (log.type === "npc"
+                ? log.npc + ": "
+                : log.type === "user"
+                  ? user.name + ": "
+                  : "") +
               log.text +
-              (log.info ? `(난이도: ${log.info?.difficulty})` : ""),
+              (log.info
+                ? `(난이도: ${log.info?.difficulty}, 결과: ${log.prefix})`
+                : ""),
           ),
         title: user.title,
         difficulty: getDifficulty(user.level),
@@ -131,6 +137,7 @@ export default function Input({
         user,
         items,
         monster,
+        cleared,
       });
       addLog({ text: value, type: "user", changes: [] });
       setValue("");
@@ -237,13 +244,21 @@ export default function Input({
         changes: c,
       });
 
-      if (!cleared && (log.clear || (monster && monster?.hp <= 0))) {
+      if (
+        !cleared &&
+        (log.clear || (monster && monster?.hp + (log.damage ?? 0) <= 0))
+      ) {
         clear();
       }
 
       if (log.script?.length > 0) {
         log.script.forEach((script, i) => {
-          if (script.utterance === "") return;
+          console.log(logs.filter((l) => l.text == script.utterance));
+          if (
+            script.utterance === "" &&
+            logs.filter((l) => l.text == script.utterance).length > 0
+          )
+            return;
           addNpc(script.npc);
           setTimeout(() => {
             addLog({
