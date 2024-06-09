@@ -13,7 +13,7 @@ export const getActionType = async (
   props: ActionInputType,
 ): Promise<ActionOutputType> => {
   const result = await actionTypeHook(props);
-  return result;
+  return { ...result, difficulty: result.difficulty };
 };
 
 export const getLog = async (props: LogInputType): Promise<LogOutputType> => {
@@ -50,9 +50,9 @@ export const getResult = (
   switch (true) {
     case value < difficulty / 4:
       return { result: "대실패", value };
-    case value < difficulty / 2:
+    case value < difficulty / 1.5:
       return { result: "실패", value };
-    case value < difficulty:
+    case value < difficulty + 10:
       return { result: "성공", value };
     default:
       return { result: "대성공", value };
