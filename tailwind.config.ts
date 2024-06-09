@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#00eeee",
+        primary: "#22dddd",
       },
       height: {
         // @ts-expect-error this can be array

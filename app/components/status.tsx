@@ -40,7 +40,7 @@ export default function Status(): JSX.Element {
               <Cross size={16} />
               <b>HP</b> {user.hp} / {getMaxHP(user.level)}
             </div>
-            <div className="group relative flex w-fit items-center gap-1 whitespace-nowrap stroke-1 text-blue-600 md:justify-center">
+            <div className="group relative flex w-fit items-center gap-1 whitespace-nowrap stroke-1 text-blue-500 md:justify-center">
               <div className="hover hover-down hover-right md:hover-left text-center">
                 마법을 사용할 때와
                 <br className="md:hidden" />
