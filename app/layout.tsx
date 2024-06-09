@@ -14,6 +14,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6832330944407417"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body className="flex h-full w-full justify-center bg-gray-950 text-primary">
         <Toolbar />
         {children}
