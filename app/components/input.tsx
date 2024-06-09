@@ -108,7 +108,16 @@ export default function Input({
         map: { ...map, monster: cleared ? null : monster },
         logs: [
           ...logs
-            .slice(-10)
+            .slice(
+              logs.lastIndexOf(
+                logs.find((l) => l.type === "move") || {
+                  type: "move",
+                  text: "",
+                  changes: [],
+                },
+              ),
+            )
+            .slice(-20)
             .filter((l) => l.type !== "move")
             .map(
               (log) =>
@@ -227,6 +236,7 @@ export default function Input({
         type: "system",
         changes: c,
       });
+
       if (!cleared && (log.clear || (monster && monster?.hp <= 0))) {
         clear();
       }

@@ -353,45 +353,6 @@ export const useData = create(
               title,
               exp: 0,
             },
-            logs: [
-              ...state.logs,
-              {
-                text: "레벨도 초기화되고 가진 것도 모두 잃었지만 쉼터에서 재정비를 마치고 다시 모험을 떠난다...",
-                type: "system",
-                changes: [],
-              },
-            ],
-            items: [
-              {
-                item: {
-                  key: "wooden_stick",
-                  name: "나무 막대기",
-                  description: "공격력 10을 가진 나무 막대기",
-                },
-                count: 1,
-              },
-              {
-                item: {
-                  key: "red_potion",
-                  name: "빨간 포션",
-                  description: "체력을 20 회복해주는 포션",
-                },
-                count: 2,
-              },
-              {
-                item: {
-                  key: "bread",
-                  name: "빵",
-                  description: "아무 효과도 없는 퍽퍽한 빵",
-                },
-                count: 1,
-              },
-            ],
-            monster: null,
-            npc: [],
-            map: RESTARTMAP,
-            route: [...state.route, RESTARTMAP],
-            cleared: false,
             highscore: Math.max(state.highscore, state.user.level),
           };
         });

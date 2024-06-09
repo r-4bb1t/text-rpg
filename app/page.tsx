@@ -7,6 +7,7 @@ import Input from "./components/input";
 import Logs from "./components/logs";
 import Monster from "./components/monster";
 import Status from "./components/status";
+import { RESTARTMAP } from "./map";
 import { useData } from "./store/store";
 import { josa } from "es-hangul";
 import { Sparkles } from "lucide-react";
@@ -15,7 +16,7 @@ function App(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [moving, setMoving] = useState(false);
 
-  const { user, addLog, reset, map } = useData();
+  const { user, addLog, reset, map, move } = useData();
 
   useEffect(() => {
     if (user.hp <= 0) {
@@ -31,6 +32,7 @@ function App(): JSX.Element {
       );
       setTimeout(() => {
         reset();
+        move(RESTARTMAP);
       }, 3000);
     }
   }, [user.hp, user.name, addLog]);
