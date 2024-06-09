@@ -56,7 +56,7 @@ export default function Monster({
   return monster ? (
     <div
       className={cc([
-        "flex shrink-0 justify-between border border-primary px-4 py-2",
+        "flex w-full shrink-0 justify-between border border-primary px-4 py-2",
         !cleared && !monster.encountered && "opacity-30",
       ])}
     >

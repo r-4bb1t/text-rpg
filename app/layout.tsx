@@ -21,7 +21,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         ></script>
       </head>
-      <body className="flex h-full w-full justify-center bg-gray-950 text-primary">
+      <body className="flex w-full flex-col items-center bg-gray-950 text-primary">
         <Toolbar />
         {children}
       </body>

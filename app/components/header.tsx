@@ -1,15 +1,15 @@
 import { useData } from "../store/store";
 import { icons } from "lucide-react";
 
-export default function Header(): JSX.Element {
+export default function MapHeader(): JSX.Element {
   const { map } = useData();
   return (
-    <header className="flex items-center justify-between">
-      <div className="text-sm">
+    <div className="flex w-full items-center justify-between gap-2">
+      <div className="shrink-0 text-sm">
         {map.name}
         <div className="text-xs">{map.description}</div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex w-full shrink flex-wrap items-center gap-2">
         {map.environments.map((env) => {
           const Icon = icons[env.icon as keyof typeof icons];
           if (!Icon) return <></>;
@@ -21,6 +21,6 @@ export default function Header(): JSX.Element {
           );
         })}
       </div>
-    </header>
+    </div>
   );
 }

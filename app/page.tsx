@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import Header from "./components/header";
+import MapHeader from "./components/header";
 import Input from "./components/input";
 import Logs from "./components/logs";
 import Monster from "./components/monster";
@@ -60,9 +60,9 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <main className="flex h-screen w-full max-w-5xl flex-col gap-4 overflow-visible p-12 pt-16">
+    <main className="flex h-screen max-h-screen w-full max-w-5xl flex-col gap-4 px-4 pb-4 pt-20 md:px-8 md:pb-8 lg:px-12">
       <Status />
-      <Header />
+      <MapHeader />
       <Monster setMoving={setMoving} moving={moving} setLoading={setLoading} />
       <Logs />
       <Input

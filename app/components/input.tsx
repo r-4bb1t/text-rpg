@@ -290,7 +290,7 @@ export default function Input({
         </div>
       )}
       <input
-        className="w-full border border-primary bg-transparent px-4 py-2 placeholder:text-primary/30 focus:outline-primary disabled:opacity-20"
+        className="w-full min-w-0 border border-primary bg-transparent px-4 py-2 placeholder:text-primary/30 focus:outline-primary disabled:opacity-20"
         disabled={loading || moving}
         value={value}
         onChange={(e) => setValue(e.target.value)}
