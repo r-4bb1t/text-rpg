@@ -13,6 +13,8 @@ export interface MapType {
   environments: EnvironmentType[];
 
   startLogs: string[];
+
+  userLocation: string;
 }
 
 export interface EnvironmentType {

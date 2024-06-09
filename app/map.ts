@@ -9,6 +9,7 @@ export const STARTMAP: MapType = {
   monster: null,
   environments: [],
   npc: [],
+  userLocation: "시작 지점",
 
   startLogs: [
     "오늘, 한 모험가가 여행을 떠난다.",
@@ -28,6 +29,7 @@ export const RESTARTMAP: MapType = {
   monster: null,
   environments: [],
   npc: [],
+  userLocation: "쉼터",
 
   startLogs: [
     "다시 한 번 여행을 떠난다.",

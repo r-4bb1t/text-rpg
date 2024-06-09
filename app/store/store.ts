@@ -273,9 +273,6 @@ export const useData = create(
             return state;
           }
           const hp = state.monster.hp - damage;
-          if (hp <= 0) {
-            return { cleared: true };
-          }
           return { monster: { ...state.monster, hp } };
         });
       },

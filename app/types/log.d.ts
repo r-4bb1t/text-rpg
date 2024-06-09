@@ -12,6 +12,7 @@ export interface LogType {
     type: SkillTypes;
     difficulty: number;
     value: number;
+    standard: number;
   };
   npc?: string;
 }

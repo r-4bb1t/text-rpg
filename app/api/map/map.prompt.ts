@@ -7,7 +7,7 @@ export const mapPrompt = (user: string, maxLevel: number) => `
   MAP_TYPE[Math.floor(Math.random() * MAP_TYPE.length)]
 }로 설정해주세요. 맵의 이름과 설명을 작성해주세요.
 몬스터가 없는 마을이나 상점이라면 monster를 null로 설정해주세요. 몬스터가 없다면 NPC들은 평화롭게 살고 있을 것입니다.
-몬스터가 있는 마을의 NPC들은 몬스터를 물리치면 감사해할 것이며, 몬스터를 물리치는 것을 도와줄 수 있습니다.
+몬스터가 있는 마을의 NPC들은 몬스터에게 고통받고 있습니다. 몬스터를 물리치면 감사해할 것이며, 몬스터를 물리치는 것을 도와줄 수 있습니다.
 모험가의 이름은 ${user}입니다.
 
 example:
@@ -22,7 +22,7 @@ example:
   ],
   "monster": {
     "name": "설인",
-    "description": "눈 덮인 산에 살고 있는 설인. 눈을 먹는다. 물리 공격과 불 마법에 약하다. 먹은 눈덩이를 뱉어 공격한다.",
+    "description": "눈 덮인 산에 살고 있는 설인. 눈을 먹는다. 물리 공격과 불 마법에 약하다. 물 마법에는 내성이 있다. 먹은 눈덩이를 뱉어 공격한다.",
     "personality": "둔하고 사나운",
     "level": ${maxLevel},
     "gold": 50
@@ -37,7 +37,7 @@ example:
     {
       "key": "lulu",
       "name": "루루",
-      "description": "산에 살고 있는 소녀.",
+      "description": "산에 살고 있는 소녀. 설인에게 가족을 잃었다.",
       "personality": "냉정한"
     },
     {
@@ -50,7 +50,8 @@ example:
   "environments": [
     { "key": "snow", "name": "눈", "icon": "Snowflake" },
     { "key": "mountain", "name": "산", "icon": "Mountain" }
-  ]
+  ],
+  "userLocation": "산 아래 마을 입구"
 }
 
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
@@ -88,5 +89,6 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
   }[];
 
   "startLogs": string[];
+  "userLocation": string; // 모험가가 맵에 처음 입장했을 때의 위치를 작성해주세요.
 }
 `;

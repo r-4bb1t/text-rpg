@@ -58,7 +58,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <main className="flex h-screen w-full max-w-5xl flex-col gap-4 overflow-hidden p-12 pt-16">
+    <main className="flex h-screen w-full max-w-5xl flex-col gap-4 overflow-visible p-12 pt-16">
       <Status />
       <Header />
       <Monster setMoving={setMoving} moving={moving} setLoading={setLoading} />

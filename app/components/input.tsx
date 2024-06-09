@@ -6,7 +6,7 @@ import { josa } from "es-hangul";
 import { Footprints } from "lucide-react";
 
 import { LogType } from "@/app//types/log";
-import { getDifficulty, getMaxMP } from "@/app//utils/level";
+import { getDifficulty, getMaxHP, getMaxMP } from "@/app//utils/level";
 import { getActionType, getLog, getResult } from "@/app/utils/action";
 
 export default function Input({
@@ -89,7 +89,15 @@ export default function Input({
         items,
         npc: map.npc.filter((n) => n.encountered),
         map,
-        logs: logs.slice(-5).map((log) => log.type + ": " + log.text),
+        logs: logs
+          .slice(-5)
+          .map(
+            (log) =>
+              log.type +
+              ": " +
+              log.text +
+              (log.info ? `(난이도: ${log.info?.difficulty})` : ""),
+          ),
         title: user.title,
         difficulty: getDifficulty(user.level),
       });
@@ -119,14 +127,29 @@ export default function Input({
       setValue("");
 
       const c: LogType["changes"] = [];
-      if (log.hpChange) {
+      if (
+        log.hpChange &&
+        Math.max(
+          Math.min(log.hpChange, getMaxHP(user.level) - user.hp),
+          -user.hp,
+        ) !== 0
+      ) {
         addHp(log.hpChange);
         c.push({
           key: "HP",
-          value: log.hpChange,
+          value: Math.max(
+            Math.min(log.hpChange, getMaxHP(user.level) - user.hp),
+            -user.hp,
+          ),
         });
       }
-      if (log.mpChange) {
+      if (
+        log.mpChange &&
+        Math.max(
+          Math.min(log.mpChange, getMaxMP(user.level) - user.mp),
+          -user.mp,
+        ) !== 0
+      ) {
         addMp(log.mpChange);
         c.push({
           key: "MP",
@@ -196,8 +219,9 @@ export default function Input({
         prefix: result,
         info: {
           type,
-          difficulty: difficulty / getDifficulty(user.level),
-          value: val / getDifficulty(user.level),
+          difficulty: difficulty,
+          value: val,
+          standard: getDifficulty(user.level),
         },
         text: log.text,
         type: "system",

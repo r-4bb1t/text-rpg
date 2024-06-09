@@ -49,9 +49,10 @@ export default function Logs(): JSX.Element {
                   <div className="hover hover-left">
                     판정: {log.info.type}
                     <br />
-                    난이도: {log.info.difficulty.toFixed(2)}
+                    난이도:{" "}
+                    {(log.info.difficulty / log.info.standard).toFixed(2)}
                     <br />
-                    계산값: {log.info.value.toFixed(2)}
+                    계산값: {(log.info.value / log.info.standard).toFixed(2)}
                   </div>
                 )}
                 [{log.prefix}]{" "}

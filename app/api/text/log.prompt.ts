@@ -9,7 +9,7 @@ export const logPrompt = ({
   action,
   result,
   items,
-}: LogInputType) => `${user.name}는 현재 ${map.name}에 있다.
+}: LogInputType) => `${user.name}는 현재 ${map.name}의 ${map.userLocation}에 있다.
 
 [로그]
 ${logs.map((log) => "- " + log).join("\n")}
@@ -51,12 +51,9 @@ ${user.title.map((title) => `[key: ${title.key}] ${title.name} - ${title.descrip
     : ""
 }
 
-[${user.name}의 행동 혹은 대사]
-${action}
-
 ${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다.
 ${user.mp}가 해당 행동을 하는 데에 부족하다면 MP를 사용하는 방식이 아닌 다른 방식으로 ${result}할 수 있다.
-이 때 ${user.name}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라.
+이 때 ${user.name}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라. 
 ${user.name}가 주변을 살핀다면 최대한 자세히 적어라.
 ${user.name}가 ${map.npc.map((n) => n.place).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.
 목표는 몬스터를 만나 몬스터를 물리치는 것이며, 그 과정에서 NPC와 대화하거나 거래할 수 있다.
@@ -85,6 +82,10 @@ status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되
 칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다. 같은 계열의 칭호만 강화할 수 있다. 
 예를 들어, "영혼의 속삭임을 듣는 자"라는 칭호가 있을 경우 "영혼과 자유롭게 대화하는 자"로 강화할 수 있지만, "불의 마법을 배운 자"로는 강화할 수 없다.
 
+
+[${user.name}의 행동 혹은 대사]
+${action}
+
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
 {
     "text": string,
@@ -99,5 +100,6 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "title": { "key": string; "name": string; "description": string }[],
     "statusChange": { "key": string; "value": number }[],
     "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 100)} (최대 ${Math.floor(getMaxExp(user.level) / 100)})
+    "userLocation": string; // 유저가 이동한 위치
 }
 `;

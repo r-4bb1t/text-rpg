@@ -23,7 +23,7 @@ body {
 
 @layer components {
   .hover {
-    @apply pointer-events-none absolute bottom-[calc(100%+0.5rem)] whitespace-nowrap border border-primary bg-gray-950 px-3 py-0.5 text-sm text-primary opacity-0 group-hover:opacity-100;
+    @apply pointer-events-none absolute bottom-[calc(100%+0.5rem)] z-10 h-fit whitespace-nowrap border border-primary bg-gray-950 px-3 py-0.5 text-sm text-primary opacity-0 group-hover:opacity-100;
   }
   .hover-left {
     @apply left-0;
