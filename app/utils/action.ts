@@ -45,14 +45,14 @@ export const getResult = (
       break;
   }
 
-  value = Math.sqrt(Math.random() * value) * 4; // 0~value
+  value = Math.sqrt(Math.random() * value) * 3; // 0~value
 
   switch (true) {
     case value < difficulty / 4:
       return { result: "대실패", value };
     case value < difficulty / 1.5:
       return { result: "실패", value };
-    case value < difficulty + 10:
+    case value < difficulty * 1.2:
       return { result: "성공", value };
     default:
       return { result: "대성공", value };
