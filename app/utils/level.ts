@@ -11,7 +11,7 @@ export const getMonsterMaxHP = (level: number): number => {
 };
 
 export const getMaxExp = (level: number): number => {
-  return level * 100;
+  return level * 200;
 };
 
 export const getExp = (level: number): number => {

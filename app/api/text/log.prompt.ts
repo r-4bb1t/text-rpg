@@ -98,6 +98,6 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     ${monster ? `"clear": boolean` : ""},
     "title": { "key": string; "name": string; "description": string }[],
     "statusChange": { "key": string; "value": number }[],
-    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 40)} (최대 ${Math.floor(getMaxExp(user.level) / 40)})
+    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 100)} (최대 ${Math.floor(getMaxExp(user.level) / 100)})
 }
 `;
