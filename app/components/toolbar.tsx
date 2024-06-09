@@ -77,15 +77,20 @@ export default function Toolbar() {
         </div>
       </div>
 
-      <button
-        className="btn btn-sm"
-        onClick={() => {
-          useData.persist.clearStorage();
-          window.location.reload();
-        }}
-      >
-        처음부터
-      </button>
+      <div className="flex items-center gap-4">
+        <a className="btn btn-sm" href="https://toss.me/r4bb1t" target="_blank">
+          후원하기
+        </a>
+        <button
+          className="btn btn-sm"
+          onClick={() => {
+            useData.persist.clearStorage();
+            window.location.reload();
+          }}
+        >
+          처음부터
+        </button>
+      </div>
     </header>
   );
 }
