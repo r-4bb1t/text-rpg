@@ -4,7 +4,7 @@ import { icons } from "lucide-react";
 export default function MapHeader(): JSX.Element {
   const { map } = useData();
   return (
-    <div className="flex w-full items-center justify-between gap-2">
+    <div className="flex w-full flex-col justify-between gap-2 md:flex-row md:items-center">
       <div className="shrink-0 text-sm">
         {map.name}
         <div className="text-xs">{map.description}</div>
@@ -15,7 +15,7 @@ export default function MapHeader(): JSX.Element {
           if (!Icon) return <></>;
           return (
             <div key={env.name} className="flex items-center gap-2 text-sm">
-              <Icon className="stroke-2" size={20} />
+              <Icon className="stroke-2" size={18} />
               {env.name}
             </div>
           );

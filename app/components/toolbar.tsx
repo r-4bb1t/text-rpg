@@ -61,7 +61,7 @@ export default function Toolbar() {
                 {items.map((item) => {
                   return (
                     <div
-                      className="relative flex items-center gap-1 border border-primary px-2 py-0.5 text-xs md:justify-center"
+                      className="relative flex w-full items-center gap-1 whitespace-normal border border-primary px-2 py-0.5 text-xs md:justify-center"
                       key={item.item.key}
                     >
                       {item.item.name} x {item.count}

@@ -23,28 +23,32 @@ example:
   "monster": {
     "name": "설인",
     "description": "눈 덮인 산에 살고 있는 설인. 눈을 먹는다. 물리 공격과 불 마법에 약하다. 물 마법에는 내성이 있다. 먹은 눈덩이를 뱉어 공격한다.",
-    "personality": "둔하고 사나운",
+    "personality": "포악한",
     "level": ${maxLevel},
-    "gold": 50
+    "gold": 50,
+    "location": "산 정상"
   },
   "npc": [
     {
       "key": "merchant_jade",
       "name": "상인 제이드",
       "description": "물건을 파는 상인.",
-      "personality": "친절한"
+      "personality": "친절한",
+      "location": "산 아래 제이드 상점"
     },
     {
       "key": "lulu",
       "name": "루루",
       "description": "산에 살고 있는 소녀. 설인에게 가족을 잃었다.",
-      "personality": "냉정한"
+      "personality": "냉정한",
+      "location": "산 아래 마을"
     },
     {
       "key": "mountain_oldman",
       "name": "슈하임",
       "description": "산을 여기저기 돌아다니는 노인.",
-      "personality": "농담을 좋아하고 알기 어려운"
+      "personality": "농담을 좋아하고 알기 어려운",
+      "location": "산 중턱"
     }
   ],
   "environments": [
@@ -71,7 +75,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "level": number; // ${Math.max(1, maxLevel - 3)}~${maxLevel} (최대 ${maxLevel})
 
     "gold": number; // 몬스터가 드랍하는 골드의 양입니다.
-    "place": string; // 몬스터가 출몰하는 위치입니다. 맵 안의 공간을 작성해주세요.
+    "location": string; // 몬스터가 출몰하는 위치입니다. 맵 안의 공간을 작성해주세요.
   } | null; // 몬스터가 없으면 null을 넣어주세요.
 
   "npc": {
@@ -79,7 +83,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "name": string; // NPC의 이름입니다.
     "description": string; // NPC에 대한 간단한 설명입니다.
     "personality": string; // NPC의 성격입니다.
-    "place": string; // NPC가 출몰하는 위치입니다. 맵 안의 공간을 작성해주세요.
+    "location": string; // NPC가 출몰하는 위치입니다. 맵 안의 공간을 작성해주세요.
   }[]; // 맵에 등장하는 NPC들입니다. 없으면 빈 배열을 넣어주세요. (최대 3명)
 
   "environments": { 

@@ -3,7 +3,7 @@ export interface MonsterType {
   description: string;
   longDescription: string;
   personality: string;
-  place: string;
+  location: string;
 
   level: number;
   hp: number;

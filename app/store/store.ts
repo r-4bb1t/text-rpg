@@ -19,6 +19,7 @@ export interface Store {
   addMp: (mp: number) => void;
   addStatus: (key: string, value: number) => void;
   addExp: (exp: number) => void;
+  setUserLocation: (location: string) => void;
 
   logs: LogType[];
   addLog: (log: LogType) => void;
@@ -34,7 +35,7 @@ export interface Store {
 
   monster: MonsterType | null;
   initMonster: (monster: MonsterType) => void;
-  encounter: () => void;
+  encounter: (state: boolean) => void;
 
   addNpc: (npc: NPCType) => void;
 
@@ -132,6 +133,15 @@ export const useData = create(
             },
           };
         }),
+      setUserLocation: (location): void =>
+        set((state) => {
+          return {
+            map: {
+              ...state.map,
+              userLocation: location,
+            },
+          };
+        }),
 
       addTitle: (key, name, description): void =>
         set((state) => {
@@ -218,12 +228,17 @@ export const useData = create(
       monster: null,
       initMonster: (monster): void => set({ monster }),
       encounterMonster: false,
-      encounter: (): void => {
+      encounter: (s): void => {
         set((state) => {
           if (!state.monster) {
             return state;
           }
-          return { monster: { ...state.monster, encountered: true } };
+          return {
+            monster: {
+              ...state.monster,
+              encountered: s,
+            },
+          };
         });
       },
 

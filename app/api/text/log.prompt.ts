@@ -39,7 +39,7 @@ ${items.map((item) => `[key: ${item.item.key}] ${item.item.name} ${item.count}�
 ${user.gold} 골드
 
 [마주치는 것이 가능한 NPC]
-${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n.place} / 성격: ${n.personality} / ${user.name}에 대한 호감도: ${n.likeability} / ${n.encountered ? `${user.name}와 마주친 상태다.` : `아직 ${user.name}와 마주치지 않았다.`}`).join("\n")}
+${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n.location} / 성격: ${n.personality} / ${user.name}에 대한 호감도: ${n.likeability} / ${n.encountered ? `${user.name}와 마주친 상태다.` : `아직 ${user.name}와 마주치지 않았다.`}`).join("\n")}
 
 [${user.name}의 상태]
 - hp: ${user.hp} / ${getMaxHP(user.level)}
@@ -57,7 +57,7 @@ ${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}
 ${user.mp}가 해당 행동을 하는 데에 부족하다면 MP를 사용하는 방식이 아닌 다른 방식으로 ${result}할 수 있다.
 이 때 ${user.name}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라. 
 ${user.name}가 주변을 살핀다면 최대한 자세히 적어라.
-${user.name}가 ${map.npc.map((n) => n.place).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.
+${user.name}가 ${map.npc.map((n) => n.location).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.
 목표는 몬스터를 만나 몬스터를 물리치는 것이며, 그 과정에서 NPC와 대화하거나 거래할 수 있다.
 또한 몬스터를 설득하거나 다른 방법으로 해결하는 것도 가능하다.
 
@@ -79,9 +79,9 @@ ${
     : ""
 }
 status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되면 1~2를 증가시킨다.
-새로운 칭호를 추가하거나 칭호가 강화될 경우에만 title에 반환한다. 칭호의 추가와 강화는 ${user.name}의 업적이 대단할 경우에 가능하다.
-칭호는 ${user.name}의 행동의 결과에 영향을 줄 수 있는 요소로, 예를 들면 { key: "flame_wizard", name: "불의 마법을 배운 자", description: "불의 마법을 더 잘 쓸 수 있다." } 와 같다.
-칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다. 같은 계열의 칭호만 강화할 수 있다. 
+새로운 칭호를 추가하거나 칭호가 강화될 경우에만 title에 반환한다. 칭호의 추가와 강화는 ${user.name}가 새로운 것을 배우거나, 업적이 대단할 경우에 가능하다. 칭호의 강화는 미약하게 변화한다. (ex. 초보 불 마법사 -> 약간 숙련된 불 마법사)
+칭호는 ${user.name}의 행동의 결과에 영향을 줄 수 있는 요소로, 예를 들면 { key: "flame_wizard", name: "불의 마법을 배운 자", description: "불의 마법을 조금 쓸 수 있다." } 와 같다.
+칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다. 같은 계열의 칭호만 강화할 수 있으며, 같은 계열의 칭호는 새로 얻는 것이 아니라 강화된다. 
 예를 들어, "영혼의 속삭임을 듣는 자"라는 칭호가 있을 경우 "영혼과 자유롭게 대화하는 자"로 강화할 수 있지만, "불의 마법을 배운 자"로는 강화할 수 없다.
 
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)

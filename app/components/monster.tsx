@@ -74,9 +74,10 @@ export default function Monster({
         </div>
       ) : (
         <>
-          <div className="flex items-baseline gap-2">
-            {monster.encountered && monster.personality} {monster.name} Lv.
-            {monster.level}{" "}
+          <div className="flex flex-col items-baseline gap-2 md:flex-row">
+            {monster.encountered &&
+              `Lv.${monster.level} ${monster.personality}`}{" "}
+            {monster.name}
             {monster.encountered && (
               <div className="text-xs">{monster.description}</div>
             )}

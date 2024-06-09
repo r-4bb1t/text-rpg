@@ -40,6 +40,7 @@ export default function Input({
     cleared,
     attack,
     addNpc,
+    setUserLocation,
     clear,
     addExp,
   } = useData();
@@ -228,8 +229,15 @@ export default function Input({
           });
         });
       }
+      if (log.userLocation) {
+        setUserLocation(log.userLocation);
+        if (log.userLocation !== monster?.location) {
+          console.log(monster?.location);
+          encounter(false);
+        }
+      }
       if (log.encounteredMonster) {
-        encounter();
+        encounter(true);
       }
       addLog({
         prefix: result,
@@ -255,7 +263,7 @@ export default function Input({
         log.script.forEach((script, i) => {
           console.log(logs.filter((l) => l.text == script.utterance));
           if (
-            script.utterance === "" &&
+            script.utterance === "" ||
             logs.filter((l) => l.text == script.utterance).length > 0
           )
             return;
@@ -276,7 +284,30 @@ export default function Input({
     } finally {
       setLoading(false);
     }
-  }, [value]);
+  }, [
+    setLoading,
+    map,
+    value,
+    items,
+    logs,
+    user,
+    cleared,
+    monster,
+    addLog,
+    setMoving,
+    setUser,
+    move,
+    addHp,
+    addMp,
+    attack,
+    addExp,
+    addStatus,
+    addItem,
+    addTitle,
+    encounter,
+    clear,
+    addNpc,
+  ]);
 
   useEffect(() => {
     if (!loading && !moving) inputRef.current?.focus();

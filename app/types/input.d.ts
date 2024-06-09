@@ -38,6 +38,7 @@ export interface LogOutputType {
   title: { key: string; name: string; description: string }[];
   statusChange: { key: string; value: number }[];
   exp: number;
+  userLocation: string;
 }
 
 export interface MapInputType {

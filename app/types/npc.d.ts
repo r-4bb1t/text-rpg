@@ -3,7 +3,7 @@ export interface NPCType {
   name: string;
   description: string;
   personality: string;
-  place: string;
+  location: string;
 
   encountered: boolean;
   likeability: number;
