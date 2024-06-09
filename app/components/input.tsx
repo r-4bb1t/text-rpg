@@ -232,7 +232,6 @@ export default function Input({
       if (log.userLocation) {
         setUserLocation(log.userLocation);
         if (log.userLocation !== monster?.location) {
-          console.log(monster?.location);
           encounter(false);
         }
       }
