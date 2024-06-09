@@ -303,6 +303,7 @@ export default function Input({
     addStatus,
     addItem,
     addTitle,
+    setUserLocation,
     encounter,
     clear,
     addNpc,
