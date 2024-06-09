@@ -393,7 +393,7 @@ export const useData = create(
             monster: null,
             npc: [],
             map: RESTARTMAP,
-            route: [RESTARTMAP],
+            route: [...state.route, RESTARTMAP],
             cleared: false,
             highscore: Math.max(state.highscore, state.user.level),
           };

@@ -28,8 +28,11 @@ body {
   .hover-left {
     @apply left-0;
   }
+  .hover-down {
+    @apply top-[calc(100%+0.5rem)];
+  }
   .btn {
-    @apply shrink-0 border border-primary px-4 py-2 hover:bg-primary hover:text-black disabled:opacity-20 disabled:hover:!bg-transparent disabled:hover:!text-primary;
+    @apply shrink-0 border border-primary bg-gray-950 px-4 py-2 hover:bg-primary hover:text-gray-950 disabled:opacity-20 disabled:hover:!bg-transparent disabled:hover:!text-primary;
   }
   .btn-sm {
     @apply px-2 py-0.5 text-sm;
