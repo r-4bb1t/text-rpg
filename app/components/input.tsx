@@ -177,10 +177,10 @@ export default function Input({
         });
       }
       if (log.damage) {
-        attack(log.damage);
+        attack(Math.min(log.damage, monster?.hp ?? 0));
         c.push({
           key: "공격",
-          value: log.damage,
+          value: Math.min(log.damage, monster?.hp ?? 0),
         });
       }
       if (log.exp) {

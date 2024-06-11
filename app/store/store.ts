@@ -286,7 +286,7 @@ export const useData = create(
           if (!state.monster) {
             return state;
           }
-          const hp = state.monster.hp - damage;
+          const hp = Math.max(0, state.monster.hp - damage);
           return { monster: { ...state.monster, hp } };
         });
       },
