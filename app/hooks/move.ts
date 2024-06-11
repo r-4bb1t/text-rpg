@@ -2,7 +2,7 @@ import { MapInputType } from "../types/input";
 import { MapType } from "../types/map";
 
 export const moveHook = async (props: MapInputType): Promise<MapType> => {
-  const res = await fetch("/api/map", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_HOST}/api/map`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
