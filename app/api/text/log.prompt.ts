@@ -100,6 +100,6 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
     "title": { "key": string; "name": string; "description": string }[],
     "statusChange": { "key": string; "value": number }[],
     "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 100)} (최대 ${Math.floor(getMaxExp(user.level) / 100)})
-    "userLocation": string; // 유저가 이동한 위치
+    "userLocation": string; // 유저가 이동한 위치, default는 ${map.userLocation}
 }
 `;
