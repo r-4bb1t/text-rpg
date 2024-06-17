@@ -6,100 +6,111 @@ export const logPrompt = ({
   monster,
   map,
   user,
-  action,
   result,
   items,
   cleared,
-}: LogInputType) => `${user.name}는 현재 ${map.name}의 ${map.userLocation}에 있다.
+}: LogInputType) => `${user.name} is currently at ${map.userLocation} in ${map.name}.
 
-[로그]
+[Logs]
 ${logs.map((log) => "- " + log).join("\n")}
 
 ${
   monster
-    ? `[몬스터]
-이름: ${monster.name}
-형태: ${monster.description}
-상세: ${monster.longDescription}
-성격: ${monster.personality}
-레벨: ${monster.level}
-hp: ${monster.hp} / ${monster.maxHp}
-맵 안 위치: ${monster.place}
-${monster.encountered ? (cleared ? `${user.name}와 마주친 상태다.` : `${user.name}이 해치웠다`) : `아직 ${user.name}와 마주치지 않았다.`}
+    ? `[Monster]
+Name: ${monster.name}
+Form: ${monster.description}
+Details: ${monster.longDescription}
+Personality: ${monster.personality}
+Level: ${monster.level}
+HP: ${monster.hp} / ${monster.maxHp}
+Location in map: ${monster.place}
+${monster.encountered ? (cleared ? `${user.name} encountered it.` : `${user.name} defeated it.`) : `${user.name} has not encountered it yet.`}
 `
-    : `[몬스터]
-이 맵에는 몬스터가 존재하지 않습니다.`
+    : `[Monster]
+There are no monsters in this map.`
 }
 
-[지형]
+[Terrain]
 ${map.longDescription}
 
-[${user.name}의 소지 아이템]
-${items.map((item) => `[key: ${item.item.key}] ${item.item.name} ${item.count}개 - ${item.item.description}`).join("\n")}
-${user.gold} 골드
+[Items held by ${user.name}]
+${items.map((item) => `[key: ${item.item.key}] ${item.item.name} x${item.count} - ${item.item.description}`).join("\n")}
+${user.gold} gold
 
-[마주치는 것이 가능한 NPC]
-${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / 장소: ${n.location} / 성격: ${n.personality} / ${user.name}에 대한 호감도: ${n.likeability} / ${n.encountered ? `${user.name}와 마주친 상태다.` : `아직 ${user.name}와 마주치지 않았다.`}`).join("\n")}
+[NPCs that can be encountered]
+${map.npc.map((n) => `[key: ${n.key}] ${n.name} (${n.description}) / Location: ${n.location} / Personality: ${n.personality} / Likeability towards ${user.name}: ${n.likeability} / ${n.encountered ? `Has encountered ${user.name}.` : `Has not encountered ${user.name}.`}`).join("\n")}
 
-[${user.name}의 상태]
-- hp: ${user.hp} / ${getMaxHP(user.level)}
-- mp: ${user.mp} / ${getMaxHP(user.level)}
-- 위치: ${map.userLocation}
+[${user.name}'s status]
+- HP: ${user.hp} / ${getMaxHP(user.level)}
+- MP: ${user.mp} / ${getMaxHP(user.level)}
+- Location: ${map.userLocation}
 
 ${
   user.title.length > 0
-    ? `[${user.name}의 칭호]
+    ? `[${user.name}'s titles]
 ${user.title.map((title) => `[key: ${title.key}] ${title.name} - ${title.description}`).join("\n")}`
     : ""
 }
 
-${user.name}의 행동은 대성공 / 성공 / 실패 / 대실패 중 '${result}'했다.
-${user.mp}가 해당 행동을 하는 데에 부족하다면 MP를 사용하는 방식이 아닌 다른 방식으로 ${result}할 수 있다.
-이 때 ${user.name}의 행동과 그 결과로 일어날 수 있는 사건을 1줄로 묘사하라. 
-${user.name}가 주변을 살핀다면 최대한 자세히 적어라.
-${user.name}가 ${map.npc.map((n) => n.location).join(", ")}에 가서 NPC를 마주치고, ${monster?.place}로 향하도록 유도하라.
-목표는 몬스터를 만나 몬스터를 물리치는 것이며, 그 과정에서 NPC와 대화하거나 거래할 수 있다.
-또한 몬스터를 설득하거나 다른 방법으로 해결하는 것도 가능하다.
+${user.name} performed '${translateResult(result)}' in the last action.
+If ${user.name} does not have enough MP to perform this action, describe an alternative method for performing '${translateResult(result)}'.
+In one line, describe ${user.name}'s action and the resulting event (with ${translateResult(result)}).
+If ${user.name} inspects the surroundings, describe in detail.
+Guide ${user.name} to encounter NPCs at ${map.npc.map((n) => n.location).join(", ")} and head towards ${monster?.place}.
+The goal is to encounter and defeat the monster, and in the process, interact or trade with NPCs.
+It is also possible to persuade or solve the situation by other means.
 
-
-또, 해당 결과로 인해 ${user.name}의 hp 변화나 mp 변화,${monster ? "몬스터에게 줄 수 있는 damage," : ""} 골드 변화, 아이템의 개수 변화 등의 추가 정보가 필요하다면 추가하라.
-새로운 아이템을 만들어도 된다. 단, 돈은 goldChange로만 표시한다.
-아이템 강화 시 기존 아이템을 삭제하고 강화된 아이템을 추가한다.
-모든 수치는 반드시! 변화량으로 적는다. (감소는 -)
-${user.name}이/가 가지고 있지 않은 아이템을 먹거나 사용할 경우 무시한다.
-존재하지 않는 아이템을 얻거나 잃는 경우 무시한다.
-상자 등을 열면 해당 상자는 사라진다, 또 문서 등을 읽으면 해당 문서는 사라진다. 장비나 악세서리 등은 착용하면 모두 사라진다.
-${user.name}이 이동에 따라 NPC를 마주칠 경우 NPC의 key와 대사를 출력하라. NPC를 꼭 마주치지 않아도 되고, 적당히 마주치게 해도 된다.
-NPC의 대사가 없으면 script를 빈 배열로 출력하라.
+Additionally, include changes in ${user.name}'s HP or MP, ${monster ? "damage dealt to the monster," : ""} gold changes, item quantity changes, etc., if necessary.
+You may create new items. Indicate monetary changes as goldChange.
+When enhancing items, remove the existing item and add the enhanced item.
+All numerical changes must be specified! (negative for decreases).
+Ignore actions involving items ${user.name} does not possess.
+Ignore obtaining or losing nonexistent items.
+When opening chests or reading documents, they disappear. Similarly, equipment and accessories disappear upon wearing.
+If ${user.name} encounters an NPC while moving, output the NPC's key and dialogue. NPCs don't have to be encountered strictly and can be met suitably.
+If the NPC has no dialogue, output an empty script array.
 ${
   monster
-    ? `damage는 몬스터에게 준 피해량이다. 피해를 주었다면 0 이상이어야 한다.
-몬스터를 발견했는지 여부를 출력하라. 몬스터를 꼭 마주치지 않아도 된다.
-몬스터의 hp가 0 이하가 되었거나 몬스터를 물러가게 했거나, 신뢰를 얻었을 경우에는 clear: true를 출력하라. (단, 몬스터를 막 조우한 상황이라면 clear: false를 출력한다.)`
+    ? `Damage refers to the damage dealt to the monster, and should be 0 or higher if inflicted.
+Indicate whether the monster was discovered. Encountering the monster is not mandatory.
+If the monster's HP drops to 0, is repelled, or trust is gained, output clear: true (output clear: false if just encountered).`
     : ""
 }
-status 중 "STR", "INT", "DEX", "LUK"이 오를 만한 상황이라고 판단되면 1~2를 증가시킨다.
-새로운 칭호를 추가하거나 칭호가 강화될 경우에만 title에 반환한다. 칭호의 추가와 강화는 ${user.name}가 새로운 것을 배우거나, 업적이 대단할 경우에 가능하다. 칭호의 강화는 미약하게 변화한다. (ex. 초보 불 마법사 -> 약간 숙련된 불 마법사)
-칭호는 ${user.name}의 행동의 결과에 영향을 줄 수 있는 요소로, 예를 들면
-{ key: "flame_wizard", name: "불의 마법을 배운 자", description: "불의 마법을 조금 쓸 수 있다." } 혹은
-{ key: "mine_worker", name: "초보 광부", description: "간단한 채굴을 할 수 있다." } 와 같다.
-칭호가 강화되는 경우에는 칭호의 key값을 기존 칭호와 동일하게 하고, name과 description을 변경한다. 같은 계열의 칭호만 강화할 수 있으며, 같은 계열의 칭호는 새로 얻는 것이 아니라 강화된다. 
-예를 들어, "영혼의 속삭임을 듣는 자"라는 칭호가 있을 경우 "영혼과 자유롭게 대화하는 자"로 강화할 수 있지만, "불의 마법을 배운 자"로는 강화할 수 없다.
+Increase "STR", "INT", "DEX", "LUK" by 1-2 if the situation warrants it.
+Only return titles if a new title is gained or an existing one is enhanced. Titles can be added or enhanced if ${user.name} learns something new or achieves something significant. Enhancements should be slight (e.g., novice fire wizard -> somewhat skilled fire wizard).
+Titles can influence actions, e.g.,
+{ key: "flame_wizard", name: "Learner of Fire Magic", description: "Can use basic fire magic." } or
+{ key: "mine_worker", name: "Novice Miner", description: "Can perform simple mining tasks." }
+When enhancing, keep the title's key the same but change the name and description. Enhance titles within the same series only.
+For example, "Listener of Spirit Whispers" can enhance to "Converser with Spirits" but not to "Learner of Fire Magic."
 
-response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
+response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE), THE STRING MUST BE KOREAN
 {
-    "text": string, // ~습니다가 아닌 ~다로 끝나야 한다. 유저의 행동의 ${result} 결과를 묘사하는 문장이다.
-    "itemsChange": { "key": string; "name": string; "description": string; "change": number }[], // key는 아이템의 key로, 고유하다.
+    "text": string, // A sentence describing the result of the user's '${result}' action, ending with '다' instead of '습니다'.
+    "itemsChange": { "key": string; "name": string; "description": string; "change": number }[], // key is the item's unique key.
     "hpChange"?: number;
     "mpChange"?: number;
-    "goldChange"?: number; // 돈을 얻으면 양수, 잃으면 음수
+    "goldChange"?: number; // Positive for gain, negative for loss
     ${monster ? `"damage"?: number;` : ""},
     "script": { "npc": { "key": string, "name": string, "description": string, "personality": string, "encountered": boolean, "likeability": number  }, "utterance": string }[],
     "encounteredMonster": boolean,
     ${monster ? `"clear": boolean` : ""},
     "title": { "key": string; "name": string; "description": string }[],
     "statusChange": { "key": string; "value": number }[],
-    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 100)} (최대 ${Math.floor(getMaxExp(user.level) / 100)})
-    "userLocation": string; // 유저가 이동한 위치, default는 ${map.userLocation}
+    "exp"?: number // 0~${Math.floor(getMaxExp(user.level) / 100)} (max ${Math.floor(getMaxExp(user.level) / 100)})
+    "userLocation": string; // User's new location, default is ${map.userLocation}
 }
 `;
+
+const translateResult = (result: string) => {
+  switch (result) {
+    case "대성공":
+      return "great success";
+    case "성공":
+      return "success";
+    case "실패":
+      return "failure";
+    case "대실패":
+      return "great failure";
+  }
+};

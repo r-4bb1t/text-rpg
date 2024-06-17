@@ -18,7 +18,18 @@ export const POST = async (request: Request) => {
     items,
     cleared,
   }: LogInputType = await request.json();
-
+  console.log(
+    logPrompt({
+      map,
+      items,
+      logs,
+      monster,
+      user,
+      action,
+      result,
+      cleared,
+    }),
+  );
   const completion = await openai.chat.completions.create({
     messages: [
       {
