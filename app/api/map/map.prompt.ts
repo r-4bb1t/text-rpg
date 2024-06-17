@@ -92,7 +92,7 @@ response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE), THE STRING MUST BE KORE
     "icon": ${ENVIRONMENTS.map((e) => `"${e}"`).join(" | ")} // The environment's icon.
   }[];
 
-  "startLogs": string[];
+  "startLogs": string[]; // not ~습니다, but ~다
   "userLocation": string; // The adventurer's starting location on the map.
 }
 `;
