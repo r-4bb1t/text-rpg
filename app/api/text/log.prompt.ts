@@ -77,12 +77,14 @@ If the monster's HP drops to 0, is repelled, or monster's trust is gained, outpu
     : ""
 }
 Increase "STR", "INT", "DEX", "LUK" by 1-2 if the situation warrants it.
-Only return titles if a new title is gained or an existing one is enhanced. Titles can be added or enhanced if ${user.name} learns something new or achieves something significant. Enhancements should be slight (e.g., novice fire wizard -> somewhat skilled fire wizard).
+Only return titles if a new title is gained or an existing one is enhanced.
+Titles can be added or enhanced if ${user.name} learns something new or achieves something significant.
+Enhancements should be slight (e.g., novice fire wizard -> somewhat skilled fire wizard).
 Titles can influence actions, e.g.,
 { key: "flame_wizard", name: "Learner of Fire Magic", description: "Can use basic fire magic." } or
 { key: "mine_worker", name: "Novice Miner", description: "Can perform simple mining tasks." }
-When enhancing, keep the title's key the same but change the name and description. Enhance titles within the same series only.
-For example, "Listener of Spirit Whispers" can enhance to "Converser with Spirits" but not to "Learner of Fire Magic."
+When enhancing title, keep the title's key the same but change the name and description. Enhance titles within the same series only.
+For example, the title name "Listener of Spirit Whispers" can enhance to "Converser with Spirits" but not to "Learner of Fire Magic."
 
 response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE), THE STRING MUST BE KOREAN
 {
