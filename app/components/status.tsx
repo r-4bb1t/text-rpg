@@ -42,10 +42,8 @@ export default function Status(): JSX.Element {
             </div>
             <div className="group relative flex w-fit items-center gap-1 whitespace-nowrap stroke-1 text-blue-500 md:justify-center">
               <div className="hover hover-down hover-right md:hover-left text-center">
-                마법을 사용할 때와
-                <br className="md:hidden" />
-                에너지를 사용하는
-                <br className="md:hidden" />
+                마법을 사용할 때와 <br className="md:hidden" />
+                에너지를 사용하는 <br className="md:hidden" />
                 모든 행동에 사용됩니다.
               </div>
               <Sparkle size={16} />
@@ -63,16 +61,14 @@ export default function Status(): JSX.Element {
           <div className="grid w-full grid-cols-4 gap-4 md:flex md:place-items-end">
             <div className="group relative flex w-fit items-center gap-1 stroke-1 md:justify-center">
               <div className="hover hover-down">
-                힘을 사용하는 행동의
-                <br className="md:hidden" />
+                힘을 사용하는 행동의 <br className="md:hidden" />
                 판정에 사용됩니다.
               </div>
               <BicepsFlexed size={16} /> <b>STR</b> {user.str}
             </div>
             <div className="group relative flex w-fit items-center gap-1 stroke-1 md:justify-center">
               <div className="hover hover-down hover-right md:hover-left">
-                지능을 사용하는 행동의
-                <br className="md:hidden" />
+                지능을 사용하는 행동의 <br className="md:hidden" />
                 판정에 사용됩니다.
               </div>
               <Wand2 size={16} />
@@ -80,8 +76,7 @@ export default function Status(): JSX.Element {
             </div>
             <div className="group relative flex w-fit items-center gap-1 stroke-1 md:justify-center">
               <div className="hover md:hover-down">
-                민첩성을 필요로 하는
-                <br className="md:hidden" />
+                민첩성을 필요로 하는 <br className="md:hidden" />
                 행동의 판정에 사용됩니다.
               </div>
               <Wind size={16} />
@@ -89,8 +84,7 @@ export default function Status(): JSX.Element {
             </div>
             <div className="group relative flex w-fit items-center gap-1 stroke-1 md:justify-center">
               <div className="hover md:hover-down hover-right">
-                행운은 모든 판정에
-                <br className="md:hidden" />
+                행운은 모든 판정에 <br className="md:hidden" />
                 영향을 미칩니다.
               </div>
               <Clover size={16} />
