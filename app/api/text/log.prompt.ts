@@ -73,7 +73,7 @@ ${
   monster
     ? `Damage refers to the damage dealt to the monster, and should be 0 or higher if inflicted.
 Indicate whether the monster was discovered. Encountering the monster is not mandatory.
-If the monster's HP drops to 0, is repelled, or trust is gained, output clear: true (output clear: false if just encountered).`
+If the monster's HP drops to 0, is repelled, or monster's trust is gained, output clear: true (output clear: false if just encountered).`
     : ""
 }
 Increase "STR", "INT", "DEX", "LUK" by 1-2 if the situation warrants it.
