@@ -58,7 +58,7 @@ example:
   "userLocation": "Entrance of the village at the mountain base"
 }
 
-response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE)
+response type: ONLY JSON (DO NOT INCLUDE ANYTHING ELSE), THE STRING MUST BE KOREAN
 {
   "key": string; // The map's key in English.
   "name": string; // The map's name. Include unique names. e.g. Henry's Castle Full of Gold
